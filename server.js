@@ -6,7 +6,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const methodOverride = require('method-override')
-// TODO: Add all routes here with the following syntax
+// TODO: Require all routes here with the following syntax
 // const fruitRoutes = require('./controller/fruit_routes')
 
 
@@ -49,9 +49,8 @@ app.use(
 // TODO: Add routes with this syntax
 // app.use('/fruits', fruitRoutes)
 
-
+// basic home level confirmation of server running
 app.get('/', (req, res) => {
-	// res.send('your server is running')
 	res.send(`it's time to watch a movie`)
 })
 

@@ -3,6 +3,8 @@ const mongoose = require('./connection')
 // will require snack schema for subdocuments later on
 // TODO: create Snack schema
 // const snackSchema = require('./snack')
+// TODO: create Movie Schema
+// const Movie = require('./movie')
 
 const { Schema, model } = mongoose
 
@@ -20,7 +22,7 @@ const partySchema = new Schema({
     // movies will be a schema ref
     // TODO: create and link movie schema
     // movies: [movieSchema]???
-})
+}, { timestamps: true })
 
 const Party = model('Party', partySchema)
 
