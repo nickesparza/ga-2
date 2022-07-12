@@ -15,6 +15,7 @@ RESTful routes
 - Delete WatchParty (delete)
 
 | RESTful routes | --- | Route | HTTP Verb |
+|----------------|----|--------|----------|
 | Create WatchParty Form | New | /party/new | GET |
 | Create WatchParty | Create | /party | POST |
 | View all WatchParties | Index | /party | GET |
