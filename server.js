@@ -8,7 +8,10 @@ const morgan = require('morgan')
 const methodOverride = require('method-override')
 // TODO: Require all routes here with the following syntax
 // const fruitRoutes = require('./controller/fruit_routes')
-
+const partyRoutes = require('./controllers/party_routes')
+const userRoutes = require('./controllers/user_routes')
+const snackRoutes = require('./controllers/snack_routes')
+const movieRoutes = require('./controllers/movie_routes')
 
 ////////////////////////////////////////////
 // Create express application object
@@ -48,6 +51,10 @@ app.use(
 // require router modules from controllers folder
 // TODO: Add routes with this syntax
 // app.use('/fruits', fruitRoutes)
+app.use('/parties', partyRoutes)
+app.use('/users', userRoutes)
+app.use('/snacks', snackRoutes)
+app.use('/movies', movieRoutes)
 
 // basic home level confirmation of server running
 app.get('/', (req, res) => {
