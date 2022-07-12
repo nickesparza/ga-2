@@ -5,20 +5,7 @@ WatchParty
 - Searchable via the IMDb API
 - Models: User, WatchParty, Snack, Movie(?)
 
-Packages/Modules to be Used:
-- mongoose
-- connect-mongo
-- dotenv
-- express
-- express-sesson
-- liquidjs
-- liquid-express-views
-- method-override
-- bcryptjs
-- node-fetch
-- morgan
-
-Other Technologies/Frameworks: Bootstrap
+![image](/wireframes/project-2-wireframe-08.jpg)
 
 User Stories:
 - Create an account and log in
@@ -26,8 +13,10 @@ User Stories:
 - Create a new watch party with name and date
 - Have visual indicator if watch date has passed
 - Search IMDb database for movies
+    - fetch /api/SearchMovie/
 - Browse search results
 - Add movies from search results to a watch party
+    - fetch api/Title/{ttid pulled from SearchMovie results}
 - View the watch party and list of movies
 - Edit an existing watch party
 - Delete a watch party
@@ -35,6 +24,8 @@ User Stories:
 - Delete a snack from a watch party
 - Mark a watch party as complete
 - View a read-only archive of completed watch parties
+
+![image](/wireframes/project-2-wireframe-10.jpg)
 
 WatchParty
 | RESTful routes | Route | Path | HTTP Verb |
@@ -53,16 +44,33 @@ User
 | Create User Form | New | /user/register | GET |
 | Create User| Create | /user | POST |
 
+![image](/wireframes/project-2-wireframe-11.jpg)
+
 MongoDB Collections
 - users
 - watchparties
 - snacks
 - archive
 
+Packages/Modules to be Used:
+- mongoose
+- connect-mongo
+- dotenv
+- express
+- express-sesson
+- liquidjs
+- liquid-express-views
+- method-override
+- bcryptjs
+- node-fetch
+- morgan
+
+Other Technologies/Frameworks: Bootstrap
+
 Challenges
 - How to associate a search with a specific watch party
 - Managing fetch requests (100 per day)
-- Parsing and limiting search terms
+- Parsing and limiting search terms for the best information
 - Movies and snacks don't feel like good models or even that they need schemas
 
 Stretch Goals:
