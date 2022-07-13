@@ -2,7 +2,6 @@
 // import dependencies
 ///////////////////////////
 const mongoose = require('./connection')
-const partySchema = require('./party')
 
 ///////////////////////////
 // define user model

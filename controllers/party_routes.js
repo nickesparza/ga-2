@@ -5,6 +5,7 @@ const router = express.Router()
 // import Fruit model to access database
 const Party = require('../models/party')
 const User = require('../models/user')
+const Movie = require('../models/movie')
 
 // DELETE watch party from database
 // DELETE
@@ -41,13 +42,43 @@ router.post('/new', (req, res) => {
 // UPDATE watch party form
 // PUT
 
+// NEW search for movies form
+// GET
+router.get('/:id/search', (req, res) => {
+    const partyId = req.params.id
+    const session = req.session
+    Party.findById(partyId)
+        .then(party => {
+            console.log(party)
+            res.render('parties/search', { party, id: partyId, session })
+        })
+})
+
+// return search results
+// POST
+// THIS WILL NEED TO CHANGE TO A FETCH REQUEST TO IMDB
+// TODO: change to fetch request
+router.post('/:id/search', (req, res) => {
+    const session = req.session
+    const partyId = req.params.id
+    const searchTerm = req.body.title
+    Movie.find({title: { $regex: searchTerm, $options: "i" }})
+        .then(results => {
+            console.log(results)
+            res.render('parties/search', { results, id: partyId, session })
+        })
+        .catch(err => res.json(err))
+})
+
 // SHOW a single watch party
 // GET
 router.get('/:id', (req, res) => {
     const partyId = req.params.id
     const session = req.session
+    // TODO: find all movies associated with this party and send that info along as well
     Party.findById(partyId)
         .then(party => {
+            // Movie.find()
             res.render('parties/show', { party, session: session })
         })
 })

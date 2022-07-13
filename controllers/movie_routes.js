@@ -3,15 +3,15 @@ const express = require('express')
 // router variable instead of app
 const router = express.Router()
 // import Fruit model to access database
-const User = require('../models/user')
+const Movie = require('../models/movie')
 
-// NEW user registration form
+// NEW movie search
 // GET
 
-// CREATE new user
+// return search results
 // POST
+// router.post(':id/search', (req, res) => {
 
-// fallback route redirect to login page
-// GET
+// })
 
 module.exports = router

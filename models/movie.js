@@ -8,7 +8,13 @@ const movieSchema = new Schema({
     resultType: String,
     image: String,
     title: String,
-    description: String
+    description: String,
+    parties: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Party'
+        }
+    ]
 }, { timestamps: true })
 
 const Movie = model('Movie', movieSchema)

@@ -1,0 +1,33 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+    <div class="container-md">
+        <form action="/parties/{{id}}/search" method="POST">
+                <legend>Search for a Movie</legend>
+                <input type="text" name="title" class="form-control" placeholder="Enter a title or part of a title here">
+            <input 
+                type="submit" 
+                value="Search" 
+                class="btn btn-success"
+            >
+        </form>
+    </div>
+    <div class="container-md">
+        <form action="/parties" method="GET">
+            <input class="btn btn-danger" type="submit" value="Return to Main Page">
+        </form>
+    </div>
+    {% if results %}
+        <div class="container-md">
+            {% for result in results %}
+                <div class="card" style="width: 18rem">
+                    <h5 class="card-header">{{result.title}}</h5>
+                        <div class="card-body">
+                            <img style="max-width: 100%" src="{{result.image}}">
+                        <a href="/parties/{{party._id}}" class="btn btn-info">Add to Watch Party</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endblock %}
