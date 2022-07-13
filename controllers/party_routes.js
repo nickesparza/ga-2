@@ -1,5 +1,6 @@
 // require express to build routes
 const express = require('express')
+const fetch = require('node-fetch')
 // router variable instead of app
 const router = express.Router()
 // import Fruit model to access database
@@ -7,6 +8,7 @@ const Party = require('../models/party')
 const User = require('../models/user')
 const Movie = require('../models/movie')
 
+const key = process.env.API_KEY
 // DELETE watch party from database
 // DELETE
 
@@ -41,6 +43,12 @@ router.post('/new', (req, res) => {
 
 // UPDATE watch party form
 // PUT
+router.delete('/:id', (req, res) => {
+    const partyId = req.params.id
+    Party.findByIdAndRemove(partyId)
+        .then(res.redirect('/parties'))
+        .catch(err => res.json(err))
+})
 
 // NEW search for movies form
 // GET
@@ -49,7 +57,7 @@ router.get('/:id/search', (req, res) => {
     const session = req.session
     Party.findById(partyId)
         .then(party => {
-            console.log(party)
+            // console.log(party)
             res.render('parties/search', { party, id: partyId, session })
         })
 })
@@ -62,10 +70,36 @@ router.post('/:id/search', (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
-    Movie.find({title: { $regex: searchTerm, $options: "i" }})
+    if (searchTerm) {
+        Movie.find({title: { $regex: searchTerm, $options: "i" }})
         .then(results => {
-            console.log(results)
-            res.render('parties/search', { results, id: partyId, session })
+            // console.log(results)
+            res.render('parties/search', { results, id: partyId, session, search: searchTerm })
+        })
+        .catch(err => res.json(err))
+    } else {
+        res.redirect(`/parties/${partyId}/search`)
+    }
+
+})
+
+// UPDATE a watch party with a movie
+router.put('/:id/:movieId', async (req, res) => {
+    const partyId = req.params.id
+    const movieId = req.params.movieId
+    console.log(`this is the IMDB id we're fetching: ${movieId}`)
+    const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
+    const response = await fetch(searchUrl)
+    const movieToAdd = await response.json()
+    Movie.create(movieToAdd)
+        .then(movie => {
+            console.log(movie)
+            Party.findById(partyId)
+                .then(party => {
+                    party.movies.push(movie)
+                    return party.save()
+                })
+                .then(res.redirect(`/parties/${partyId}`))
         })
         .catch(err => res.json(err))
 })

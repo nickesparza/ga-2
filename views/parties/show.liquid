@@ -9,6 +9,16 @@
             <h2>{{party.name}}</h2>
             <h3>{{party.date}}</h3>
                 <p>This will be where movies go</p>
+                <div class="row">
+                    {% for movie in party.movies %}
+                        <div class="card" style="width: 18rem">
+                        <h5 class="card-header">{{movie.name}}</h5>
+                            <div class="card-body">
+                                <img src="{{movie.image}}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
                 <a href="/parties/{{party._id}}/search">Add a Movie</a>
                 <a href="/parties/" class="btn btn-info">Back to Index</a>
             </div>
