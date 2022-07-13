@@ -1,5 +1,10 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-Hello
+Hello, {{session.username}}
+{{user}}
+{{parties[0]}}
+{% if session.username %}
+    <a href="/parties/new">Create New Watch Party</a>
+{% endif %}
 {% endblock %}

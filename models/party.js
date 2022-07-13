@@ -16,6 +16,12 @@ const partySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    movies: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Movie'
+        }
+    ],
     watched: { type: Boolean, default: false },
     // I might not need this attribute
     archived: Boolean,

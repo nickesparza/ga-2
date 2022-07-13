@@ -2,6 +2,7 @@
 // import dependencies
 ///////////////////////////
 const mongoose = require('./connection')
+const partySchema = require('./party')
 
 ///////////////////////////
 // define user model
@@ -12,7 +13,13 @@ const { Schema, model } = mongoose
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    parties: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Party'
+        }
+    ]
 }, { timestamps: true })
 
 // make user model with use schema
