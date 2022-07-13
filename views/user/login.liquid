@@ -1,0 +1,20 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+    <div class="containter-md">
+        <form action="/user/login" method="POST">
+            <fieldset>
+                <legend>Log in to Your Account</legend>
+                <label class="form-label" for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control">
+                <label class="form-label" for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control">
+            </fieldset>
+            <input 
+                type="submit" 
+                value="Log In" 
+                class="btn btn-success"
+            >
+        </form>
+    </div>
+{% endblock %}

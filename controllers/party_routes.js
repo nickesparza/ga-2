@@ -22,7 +22,9 @@ const Party = require('../models/party')
 
 // INDEX of all watch parties
 // GET
-
+router.get('/', (req, res) => {
+    res.render('parties/index')
+})
 // SHOW a single watch party
 // GET
 

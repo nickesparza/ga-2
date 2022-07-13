@@ -52,7 +52,7 @@ app.use(
 // TODO: Add routes with this syntax
 // app.use('/fruits', fruitRoutes)
 app.use('/parties', partyRoutes)
-app.use('/users', userRoutes)
+app.use('/user', userRoutes)
 app.use('/snacks', snackRoutes)
 app.use('/movies', movieRoutes)
 
