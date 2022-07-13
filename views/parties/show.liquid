@@ -1,0 +1,18 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+
+{% if session.username %}
+    <p>Hello, {{session.username}}!</p>
+    <div>
+        <div>
+            <h2>{{party.name}}</h2>
+            <h3>{{party.date}}</h3>
+                <p>This will be where movies go</p>
+                <a href="/parties/" class="btn btn-info">Back to Index</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+        
+{% endblock %}

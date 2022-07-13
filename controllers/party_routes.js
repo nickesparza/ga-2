@@ -34,11 +34,23 @@ router.post('/new', (req, res) => {
         .then(res.redirect('/parties'))
         .catch(err => res.json(err))
 })
+
 // EDIT watch party form
 // GET
 
 // UPDATE watch party form
 // PUT
+
+// SHOW a single watch party
+// GET
+router.get('/:id', (req, res) => {
+    const partyId = req.params.id
+    const session = req.session
+    Party.findById(partyId)
+        .then(party => {
+            res.render('parties/show', { party, session: session })
+        })
+})
 
 // INDEX of all watch parties
 // GET
@@ -47,10 +59,13 @@ router.get('/', (req, res) => {
     const userId = req.session.userId
     console.log(userId)
     const session = req.session
+    // if there is an active session, find the user
     if (req.session.username) {
         User.findById(userId)
         .then(user => {
+            // then, find all the parties owned by that user
             Party.find({owner: userId})
+                // then, send all of this data to the index page, including session to display the current username
                 .then(parties => {
                     res.render('parties/index', {session: session, user, parties})
                 })
@@ -58,11 +73,10 @@ router.get('/', (req, res) => {
         })
         .catch(err => res.json(err))
     } else {
-        res.redirect('/parties')
+        // if there is no active session, show the index
+        res.render('parties/index')
     }
 })
-// SHOW a single watch party
-// GET
 
 // fallback route redirect to index
 // GET
