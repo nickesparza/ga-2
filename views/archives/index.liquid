@@ -1,0 +1,29 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+
+{% if session.username %}
+    <p>Hello, {{session.username}}!</p>
+    <div>
+        <div class="row">
+            {% if archives.length < 1 %}
+                <p class="card-text">This will be where archives go</p>
+            {% else %}
+                {% for archive in archives %}
+                    <div class="card" style="width: 18rem">
+                        <h5 class="card-header">{{archive.name}}</h5>
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    {{archive.date}}
+                                </h6>
+                            
+                            <a href="/parties/{{archive._id}}" class="btn btn-info">View {{archive.name}}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+        
+{% endblock %}

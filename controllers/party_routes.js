@@ -100,6 +100,7 @@ router.put('/:id/:movieId', async (req, res) => {
     const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
     console.log(movieToAdd.id)
+    // TODO: this will create a movie even if it already exists in the db, fix it at some point
     Movie.create(movieToAdd)
         .then(movie => {
             console.log(movie)
@@ -121,19 +122,24 @@ router.put('/:id/:movieId', async (req, res) => {
 // SHOW a single watch party
 // GET
 router.get('/:id', (req, res) => {
+    // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
-    // TODO: find all movies associated with this party and send that info along as well
+    // find party
     Party.findById(partyId)
+        .populate('movies')
         .then(party => {
             console.log(party)
-            console.log(party.movies)
-            Movie.find({parties: partyId})
-                .then(movies => {
-                    console.log(movies)
-                    res.render('parties/show', { party, movies, session: session })
-                })
+            // then, find the movies inside of party
+            res.render('parties/show', { party, session: session })
+            // Movie.find({parties: partyId})
+            //     .then(movies => {
+            //         console.log(`HERE ARE THE MOVIES INSIDE OF ${party.name}: ${movies}`)
+            //         console.log(party)
+            //         res.render('parties/show', { party, movies, session: session })
+            //     })
         })
+        .catch(err => console.log(err))
 })
 
 // INDEX of all watch parties

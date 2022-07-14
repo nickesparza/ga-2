@@ -7,6 +7,7 @@
     <div>
         <div class="row">
             <a href="/parties/new">Create New Watch Party</a>
+            <a href="/archives">View Archives</a>
             {% if parties.length < 1 %}
                 <p class="card-text">This will be where parties go</p>
             {% else %}
@@ -17,7 +18,6 @@
                                 <h6 class="card-title">
                                     {{party.date}}
                                 </h6>
-                            
                             <a href="/parties/{{party._id}}" class="btn btn-info">View {{party.name}}</a>
                             <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
                                 <input type="submit" value="Delete {{party.name}}" class="btn btn-danger">

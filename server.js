@@ -12,6 +12,7 @@ const partyRoutes = require('./controllers/party_routes')
 const userRoutes = require('./controllers/user_routes')
 const snackRoutes = require('./controllers/snack_routes')
 const movieRoutes = require('./controllers/movie_routes')
+const archiveRoutes = require('./controllers/archive_routes')
 
 ////////////////////////////////////////////
 // Create express application object
@@ -55,6 +56,7 @@ app.use('/parties', partyRoutes)
 app.use('/user', userRoutes)
 app.use('/snacks', snackRoutes)
 app.use('/movies', movieRoutes)
+app.use('/archives', archiveRoutes)
 
 // basic home level confirmation of server running
 app.get('/', (req, res) => {
