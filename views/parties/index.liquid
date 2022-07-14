@@ -7,21 +7,25 @@
     <div>
         <div class="row">
             <a href="/parties/new">Create New Watch Party</a>
-            {% for party in parties %}
-                <div class="card" style="width: 18rem">
-                    <h5 class="card-header">{{party.name}}</h5>
-                        <div class="card-body">
-                            <h6 class="card-title">
-                                {{party.date}}
-                            </h6>
-                        <p class="card-text">This will be where movies go</p>
-                        <a href="/parties/{{party._id}}" class="btn btn-info">View {{party.name}}</a>
-                        <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
-                            <input type="submit" value="Delete {{party.name}}" class="btn btn-danger">
-                        </form>
+            {% if parties.length < 1 %}
+                <p class="card-text">This will be where parties go</p>
+            {% else %}
+                {% for party in parties %}
+                    <div class="card" style="width: 18rem">
+                        <h5 class="card-header">{{party.name}}</h5>
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    {{party.date}}
+                                </h6>
+                            
+                            <a href="/parties/{{party._id}}" class="btn btn-info">View {{party.name}}</a>
+                            <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
+                                <input type="submit" value="Delete {{party.name}}" class="btn btn-danger">
+                            </form>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endif %}

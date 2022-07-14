@@ -7,10 +7,18 @@ const router = express.Router()
 const Party = require('../models/party')
 const User = require('../models/user')
 const Movie = require('../models/movie')
+const Test = require('../testdata/test')
 
 const key = process.env.API_KEY
+
 // DELETE watch party from database
 // DELETE
+router.delete('/:id', (req, res) => {
+    const partyId = req.params.id
+    Party.findByIdAndRemove(partyId)
+        .then(res.redirect('/parties'))
+        .catch(err => res.json(err))
+})
 
 // NEW watch party form
 // GET
@@ -18,23 +26,29 @@ router.get('/new', (req, res) => {
     const session = req.session
     res.render('parties/new', {session: session})
 })
+
 // CREATE new watch party
 // POST
 router.post('/new', (req, res) => {
+    // get the current user ID from the session
     const userId = req.session.userId
+    // add current user to the request body
     req.body.owner = userId
     // console.log(`this is the request body being sent`)
     // console.log(req.body)
     Party.create(req.body)
         .then(party => {
             console.log(party)
+            // associate the new party with the user who is logged in
             User.findById(userId)
                 .then(user => {
+                    // add party to the user's array of parties
                     user.parties.push(party)
                     return user.save()
                 })
+            // redirect to newly created party show page
+            res.redirect(`/parties/${party._id}`)
         })
-        .then(res.redirect('/parties'))
         .catch(err => res.json(err))
 })
 
@@ -43,12 +57,6 @@ router.post('/new', (req, res) => {
 
 // UPDATE watch party form
 // PUT
-router.delete('/:id', (req, res) => {
-    const partyId = req.params.id
-    Party.findByIdAndRemove(partyId)
-        .then(res.redirect('/parties'))
-        .catch(err => res.json(err))
-})
 
 // NEW search for movies form
 // GET
@@ -71,7 +79,7 @@ router.post('/:id/search', (req, res) => {
     const partyId = req.params.id
     const searchTerm = req.body.title
     if (searchTerm) {
-        Movie.find({title: { $regex: searchTerm, $options: "i" }})
+        Test.find({title: { $regex: searchTerm, $options: "i" }})
         .then(results => {
             // console.log(results)
             res.render('parties/search', { results, id: partyId, session, search: searchTerm })
@@ -91,6 +99,7 @@ router.put('/:id/:movieId', async (req, res) => {
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
     const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
+    console.log(movieToAdd.id)
     Movie.create(movieToAdd)
         .then(movie => {
             console.log(movie)
@@ -118,8 +127,10 @@ router.get('/:id', (req, res) => {
     Party.findById(partyId)
         .then(party => {
             console.log(party)
+            console.log(party.movies)
             Movie.find({parties: partyId})
                 .then(movies => {
+                    console.log(movies)
                     res.render('parties/show', { party, movies, session: session })
                 })
         })
@@ -130,7 +141,7 @@ router.get('/:id', (req, res) => {
 router.get('/', (req, res) => {
     console.log(req.session)
     const userId = req.session.userId
-    console.log(userId)
+    console.log(`this is the userID: ${userId}`)
     const session = req.session
     // if there is an active session, find the user
     if (req.session.username) {

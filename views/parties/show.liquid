@@ -11,15 +11,21 @@
                 <p>This will be where movies go</p>
                 <div class="row">
                     {% for movie in movies %}
-                        <div class="card" style="width: 18rem">
+                        <div class="card" style="width: 24rem">
                         <h5 class="card-header">{{movie.title}}</h5>
                             <div class="card-body">
-                                <img style="max-width: 100%;"src="{{movie.image}}">
+                                <img style="max-width: 50%;"src="{{movie.image}}">
+                            </div>
+                            <div class="card-body">
+                                <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                                <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-danger" value="Delete Movie">
+                                </form>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                <a href="/parties/{{party._id}}/search">Add a Movie</a>
+                <a href="/parties/{{party._id}}/search" class="btn btn-success">Add a Movie</a>
                 <a href="/parties/" class="btn btn-info">Back to Index</a>
             </div>
         </div>
