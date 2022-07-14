@@ -8,7 +8,7 @@ const movieSchema = new Schema({
     resultType: String,
     image: String,
     title: String,
-    description: String,
+    plot: String,
     parties: [
         {
             type: Schema.Types.ObjectId,

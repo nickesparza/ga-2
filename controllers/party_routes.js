@@ -99,7 +99,12 @@ router.put('/:id/:movieId', async (req, res) => {
                     party.movies.push(movie)
                     return party.save()
                 })
+                .then(party => {
+                    movie.parties.push(party)
+                    return movie.save()
+                })
                 .then(res.redirect(`/parties/${partyId}`))
+                .catch(err => console.error(err))
         })
         .catch(err => res.json(err))
 })
@@ -112,8 +117,11 @@ router.get('/:id', (req, res) => {
     // TODO: find all movies associated with this party and send that info along as well
     Party.findById(partyId)
         .then(party => {
-            // Movie.find()
-            res.render('parties/show', { party, session: session })
+            console.log(party)
+            Movie.find({parties: partyId})
+                .then(movies => {
+                    res.render('parties/show', { party, movies, session: session })
+                })
         })
 })
 

@@ -58,7 +58,7 @@ app.use('/movies', movieRoutes)
 
 // basic home level confirmation of server running
 app.get('/', (req, res) => {
-	res.send(`it's time to watch a movie`)
+	res.redirect(`/parties`)
 })
 
 ////////////////////////////////////////////
