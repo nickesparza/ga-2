@@ -17,7 +17,7 @@ router.delete('/:id', (req, res) => {
     const partyId = req.params.id
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
-        .catch(err => res.json(err))
+        .catch(err => console.error(err))
 })
 
 // NEW watch party form
@@ -39,7 +39,7 @@ router.post('/new', (req, res) => {
     req.body.date = req.body.date
     Party.create(req.body)
         .then(party => {
-            console.log(party)
+            // console.log(party)
             // associate the new party with the user who is logged in
             User.findById(userId)
                 .then(user => {
@@ -50,7 +50,7 @@ router.post('/new', (req, res) => {
             // redirect to newly created party show page
             res.redirect(`/parties/${party._id}`)
         })
-        .catch(err => res.json(err))
+        .catch(err => console.error(err))
 })
 
 // EDIT watch party form
@@ -60,7 +60,7 @@ router.get('/:id/edit', (req, res) => {
     const session = req.session
     Party.findById(partyId)
         .then(party => {
-            res.render('parties/edit', {party, session})
+            res.redirect('parties/edit', {party, session})
         })
 })
 
@@ -69,7 +69,7 @@ router.get('/:id/edit', (req, res) => {
 router.put('/:id/edit', (req, res) => {
     const partyId = req.params.id
     const newDetails = req.body
-    console.log(req.body)
+    // console.log(req.body)
     Party.findByIdAndUpdate(partyId, newDetails)
         .then(res.redirect(`/parties/${partyId}`))
 })
@@ -100,7 +100,7 @@ router.post('/:id/search', (req, res) => {
             // console.log(results)
             res.render('parties/search', { results, id: partyId, session, search: searchTerm })
         })
-        .catch(err => res.json(err))
+        .catch(err => console.error(err))
     } else {
         res.redirect(`/parties/${partyId}/search`)
     }
@@ -111,15 +111,15 @@ router.post('/:id/search', (req, res) => {
 router.put('/:id/:movieId', async (req, res) => {
     const partyId = req.params.id
     const movieId = req.params.movieId
-    console.log(`this is the IMDB id we're fetching: ${movieId}`)
+    // console.log(`this is the IMDB id we're fetching: ${movieId}`)
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
     const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
-    console.log(movieToAdd.id)
+    // console.log(movieToAdd.id)
     // TODO: this will create a movie even if it already exists in the db, fix it at some point
     Movie.create(movieToAdd)
         .then(movie => {
-            console.log(movie)
+            // console.log(movie)
             Party.findById(partyId)
                 .then(party => {
                     party.movies.push(movie)
@@ -132,7 +132,7 @@ router.put('/:id/:movieId', async (req, res) => {
                 .then(res.redirect(`/parties/${partyId}`))
                 .catch(err => console.error(err))
         })
-        .catch(err => res.json(err))
+        .catch(err => console.error(err))
 })
 
 // SHOW a single watch party
@@ -146,18 +146,18 @@ router.get('/:id', (req, res) => {
         // then, populate movies and snacks inside of party
         .populate('movies')
         .then(party => {
-            console.log(party)
+            // console.log(party)
             res.render('parties/show', { party, session: session })
         })
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
 })
 
 // INDEX of all watch parties
 // GET
 router.get('/', (req, res) => {
-    console.log(req.session)
+    // console.log(req.session)
     const userId = req.session.userId
-    console.log(`this is the userID: ${userId}`)
+    // console.log(`this is the userID: ${userId}`)
     const session = req.session
     // if there is an active session, find the user
     if (req.session.username) {
@@ -168,12 +168,12 @@ router.get('/', (req, res) => {
                 // then, send all of this data to the index page, including session to display the current username
                 .populate('movies')
                 .then(parties => {
-                    console.log(parties)
+                    // console.log(parties)
                     res.render('parties/index', {session: session, user, parties})
                 })
-                .catch(err => res.json(err))
+                .catch(err => console.error(err))
         })
-        .catch(err => res.json(err))
+        .catch(err => console.error(err))
     } else {
         // if there is no active session, show the index
         res.render('parties/index')
