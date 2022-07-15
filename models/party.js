@@ -1,10 +1,7 @@
 // require existing mongoose connection to db
 const mongoose = require('./connection')
 // will require snack schema for subdocuments later on
-// TODO: create Snack schema
-// const snackSchema = require('./snack')
-// TODO: create Movie Schema
-// const Movie = require('./movie')
+const snackSchema = require('./snack')
 
 const { Schema, model } = mongoose
 
@@ -22,6 +19,7 @@ const partySchema = new Schema({
             ref: 'Movie'
         }
     ],
+    snacks: [snackSchema],
     watched: { type: Boolean, default: false },
     // I might not need this attribute
     archived: Boolean,

@@ -144,17 +144,11 @@ router.get('/:id', (req, res) => {
     const session = req.session
     // find party
     Party.findById(partyId)
-        .populate('movies')
+        // then, populate movies and snacks inside of party
+        .populate('movies', 'snacks')
         .then(party => {
             console.log(party)
-            // then, find the movies inside of party
             res.render('parties/show', { party, session: session })
-            // Movie.find({parties: partyId})
-            //     .then(movies => {
-            //         console.log(`HERE ARE THE MOVIES INSIDE OF ${party.name}: ${movies}`)
-            //         console.log(party)
-            //         res.render('parties/show', { party, movies, session: session })
-            //     })
         })
         .catch(err => console.log(err))
 })
