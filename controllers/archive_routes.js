@@ -6,22 +6,29 @@ const router = express.Router()
 // import Fruit model to access database
 const Party = require('../models/party')
 const User = require('../models/user')
-const Archive = require('../models/archive')
 
 const key = process.env.API_KEY
 
 // CREATE archive route
-router.post('/:partyId', (req, res) => {
+// router.post('/:partyId', (req, res) => {
+//     const partyId = req.params.partyId
+//     Party.findById(partyId)
+//         .then(party => {
+//             console.log(party)
+//             Archive.create(party)
+//                 .then(archive => {
+//                     console.log(`THIS IS THE ARCHIVE: ${archive}`)
+//                 })
+//                 .catch(err => console.log(err))
+//         })
+//         .catch(err => console.log(err))
+// })
+
+// mark a party as archived/watched
+router.put('/:partyId', (req, res) => {
     const partyId = req.params.partyId
-    Party.findById(partyId)
-        .then(party => {
-            console.log(party)
-            Archive.create(party)
-                .then(archive => {
-                    console.log(`THIS IS THE ARCHIVE: ${archive}`)
-                })
-                .catch(err => console.log(err))
-        })
+    Party.findByIdAndUpdate(partyId, {watched: true})
+        .then(res.redirect(`/parties`))
         .catch(err => console.log(err))
 })
 
@@ -36,7 +43,7 @@ router.post('/:partyId', (req, res) => {
             User.findById(userId)
             .then(user => {
                 // then, find all the parties owned by that user
-                Archive.find({owner: userId})
+                Party.find({owner: userId, watched: true})
                     // then, send all of this data to the index page, including session to display the current username
                     .then(archives => {
                         res.render('archives/index', {session: session, user, archives})
@@ -46,10 +53,25 @@ router.post('/:partyId', (req, res) => {
             .catch(err => console.log(err))
         } else {
             // if there is no active session, show the index
-            res.render('parties/index')
+            res.redirect('parties/index')
         }
     })
+
 // SHOW one archive
+router.get('/:id', (req, res) => {
+    // get party ID and session ID to populate page
+    const partyId = req.params.id
+    const session = req.session
+    // find party
+    Party.findById(partyId)
+        // then, populate movies and snacks inside of party
+        .populate('movies')
+        .then(party => {
+            console.log(party)
+            res.render('archives/show', { party, session: session })
+        })
+        .catch(err => console.log(err))
+})
 
 // fallback route redirect to index
 // GET

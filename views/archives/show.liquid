@@ -1,0 +1,43 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+
+{% if session.username %}
+    <p>Hello, {{session.username}}!</p>
+        <div>
+            <h2>{{party.name}}</h2>
+            <h3>{{party.date}}</h3>
+            <div class="row">
+                {% for movie in party.movies %}
+                    <div class="card" style="width: 24rem">
+                    <h5 class="card-header">{{movie.title}}</h5>
+                        <div class="card-body">
+                            <img style="max-width: 50%;"src="{{movie.image}}">
+                        </div>
+                        <div class="card-body">
+                            <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="/archives/" class="btn btn-info">Back to Index</a>
+        </div>
+        {% if party.snacks.length > 0 %}
+            <div class="container">
+                <h3>Snacks</h3>
+                {% for snack in party.snacks %}
+                    <div>
+                        <h4>{{snack.name}}</h4>
+                        {% if snack.purchased %}
+                            <p>Nice, leftovers.</p>
+                        {% else %}
+                            <p>Hope it tasted good!</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+        
+{% endblock %}

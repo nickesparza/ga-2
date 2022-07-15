@@ -8,7 +8,7 @@
             <h2>{{party.name}}</h2>
             <a href="/parties/{{party._id}}/edit">Edit Details</a>
             <h3>{{party.date}}</h3>
-            <form action="/archives/{{party._id}}" method="POST">
+            <form action="/archives/{{party._id}}?_method=PUT" method="POST">
                 <input class="btn btn-warning" type="submit" value="Mark Complete">
             </form>
             <div class="row">

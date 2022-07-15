@@ -21,8 +21,6 @@ const partySchema = new Schema({
     ],
     snacks: [snackSchema],
     watched: { type: Boolean, default: false },
-    // I might not need this attribute
-    archived: Boolean
 }, { timestamps: true })
 
 const Party = model('Party', partySchema)

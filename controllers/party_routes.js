@@ -164,7 +164,7 @@ router.get('/', (req, res) => {
         User.findById(userId)
         .then(user => {
             // then, find all the parties owned by that user
-            Party.find({owner: userId})
+            Party.find({owner: userId, watched: false})
                 // then, send all of this data to the index page, including session to display the current username
                 .populate('movies')
                 .then(parties => {
