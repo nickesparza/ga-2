@@ -15,6 +15,8 @@ const key = process.env.API_KEY
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
+    // Party.findById(partyId)
+    //     .populate('movies')
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
         .catch(err => res.json(err))
@@ -54,9 +56,24 @@ router.post('/new', (req, res) => {
 
 // EDIT watch party form
 // GET
+router.get('/:id/edit', (req, res) => {
+    const partyId = req.params.id
+    const session = req.session
+    Party.findById(partyId)
+        .then(party => {
+            res.render('parties/edit', {party, session})
+        })
+})
 
 // UPDATE watch party form
 // PUT
+router.put('/:id/edit', (req, res) => {
+    const partyId = req.params.id
+    const newDetails = req.body
+    console.log(req.body)
+    Party.findByIdAndUpdate(partyId, newDetails)
+        .then(res.redirect(`/parties/${partyId}`))
+})
 
 // NEW search for movies form
 // GET

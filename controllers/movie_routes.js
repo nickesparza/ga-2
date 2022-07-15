@@ -14,8 +14,8 @@ const Party = require('../models/party')
 router.delete('/:movieId/:partyId', async (req, res) => {
     const movieToDelete = req.params.movieId
     const partyToDeleteFrom = req.params.partyId
-    console.log(`THIS IS THE MOVIE I'M TRYING TO UNLINK FROM THE PARTY: ${movieToDelete}`)
-    console.log(`THIS IS THE PARTY I'M TRYING TO DELETE THIS MOVIE INSIDE OF: ${partyToDeleteFrom}`)
+    // console.log(`THIS IS THE MOVIE I'M TRYING TO UNLINK FROM THE PARTY: ${movieToDelete}`)
+    // console.log(`THIS IS THE PARTY I'M TRYING TO DELETE THIS MOVIE INSIDE OF: ${partyToDeleteFrom}`)
     Party.findByIdAndUpdate(partyToDeleteFrom, {$pull: {movies: movieToDelete}})
         .then(party => console.log(`THIS IS WHAT THE ${party.name} MOVIES ARRAY LOOKS LIKE: ${party.movies}`))
         .catch(err => console.log(err))
