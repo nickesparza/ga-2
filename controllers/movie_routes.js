@@ -2,7 +2,7 @@
 const express = require('express')
 // router variable instead of app
 const router = express.Router()
-// import Fruit model to access database
+// import movie and Party models to access database
 const Movie = require('../models/movie')
 const Party = require('../models/party')
 

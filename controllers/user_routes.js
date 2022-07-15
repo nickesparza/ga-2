@@ -2,7 +2,7 @@
 const express = require('express')
 // router variable instead of app
 const router = express.Router()
-// import Fruit model to access database
+// import User model to access database
 const User = require('../models/user')
 // bcrypt is used to hash/encrypt passwords
 const bcrypt = require('bcryptjs')
@@ -16,21 +16,21 @@ router.get('/signup', (req, res) => {
 // CREATE new user
 // POST
 router.post('/signup', async (req, res) => {
-    console.log('this is our request body', req.body)
+    // console.log('this is our request body', req.body)
     // encrypt password
     req.body.password = await bcrypt.hash(req.body.password, await bcrypt.genSalt(10))
-    console.log('this is our request body after hash', req.body)
+    // console.log('this is our request body after hash', req.body)
     // now that the password is hashed, create user
     User.create(req.body)
         // if created successfully, redirect to login page
         .then(user => {
-            console.log('this is the new user', user)
+            // console.log('this is the new user', user)
             res.redirect('/user/login')
         })
         // if creation fails, send error
         .catch(err => {
             console.log(err)
-            res.json(err)
+            // res.json(err)
         })
 })
 
@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body
     // console.log('this is the username', username)
     // console.log('this is password', password)
-    console.log('this is the session: ', req.session)
+    // console.log('this is the session: ', req.session)
 
     // find user and check if they exist
     User.findOne({ username })
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
                     req.session.username = username
                     req.session.loggedIn = true
                     req.session.userId = user._id
-                    console.log('this is the session after login: ', req.session)
+                    // console.log('this is the session after login: ', req.session)
                     res.redirect('/parties')
                 } else {
                     // if passwords don't match, send error message
@@ -88,9 +88,9 @@ router.post('/login', async (req, res) => {
 // GET that calls destroy on current session
 router.get('/logout', (req, res) => {
     req.session.destroy(ret => {
-        console.log('this is the logout error: ', ret)
-        console.log('session has been destroyed')
-        console.log(req.session)
+        // console.log('this is the logout error: ', ret)
+        // console.log('session has been destroyed')
+        // console.log(req.session)
         res.redirect('/parties')
     })
 })

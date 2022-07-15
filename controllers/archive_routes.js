@@ -3,7 +3,7 @@ const express = require('express')
 const fetch = require('node-fetch')
 // router variable instead of app
 const router = express.Router()
-// import Fruit model to access database
+// import Party and User models to access database
 const Party = require('../models/party')
 const User = require('../models/user')
 

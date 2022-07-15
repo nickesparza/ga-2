@@ -2,8 +2,7 @@
 const express = require('express')
 // router variable instead of app
 const router = express.Router()
-// import Fruit model to access database
-const User = require('../models/user')
+// import Party model
 const Party = require('../models/party')
 
 // CREATE new snack
@@ -13,9 +12,9 @@ router.post('/:partyId', (req, res) => {
         .then(party => {
             const newSnack = req.body
             newSnack.purchased = newSnack.purchased === 'on'
-            console.log(newSnack)
+            // console.log(newSnack)
             party.snacks.push(newSnack)
-            console.log(party)
+            // console.log(party)
             return party.save()
         })
         .then(res.redirect(`/parties/${partyId}`))
@@ -30,13 +29,13 @@ router.put('/:partyId/:snackId', (req, res) => {
     Party.findById(partyId)
         .then(party => {
             const snackToUpdate = party.snacks.id(snackId)
-            console.log(`This is the snack we're trying to update: ${snackToUpdate}`)
+            // console.log(`This is the snack we're trying to update: ${snackToUpdate}`)
             if (snackToUpdate.purchased) {
                 snackToUpdate.purchased = false
             } else {
                 snackToUpdate.purchased = true
             }
-            console.log(`this is the current state of the purchased field: ${snackToUpdate.purchased}`)
+            // console.log(`this is the current state of the purchased field: ${snackToUpdate.purchased}`)
             return party.save()
         })
         .then(res.redirect(`/parties/${partyId}`))

@@ -3,7 +3,7 @@ const express = require('express')
 const fetch = require('node-fetch')
 // router variable instead of app
 const router = express.Router()
-// import Fruit model to access database
+// import models to access database
 const Party = require('../models/party')
 const User = require('../models/user')
 const Movie = require('../models/movie')
@@ -15,6 +15,17 @@ const key = process.env.API_KEY
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
+    Movie.find({parties: partyId})
+        .then(movies => {
+            movies.forEach(movie => {
+                if (movie.parties.includes(partyId)) {
+                    const partyToDelete = movie.parties.indexOf(partyId)
+                    movie.parties.splice(partyToDelete, 1)
+                    movie.save()
+                }
+            })
+            console.log(movies)
+        })
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
         .catch(err => console.error(err))
