@@ -15,8 +15,6 @@ const key = process.env.API_KEY
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
-    // Party.findById(partyId)
-    //     .populate('movies')
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
         .catch(err => res.json(err))
@@ -38,6 +36,7 @@ router.post('/new', (req, res) => {
     req.body.owner = userId
     // console.log(`this is the request body being sent`)
     // console.log(req.body)
+    req.body.date = req.body.date
     Party.create(req.body)
         .then(party => {
             console.log(party)
@@ -145,7 +144,7 @@ router.get('/:id', (req, res) => {
     // find party
     Party.findById(partyId)
         // then, populate movies and snacks inside of party
-        .populate('movies', 'snacks')
+        .populate('movies')
         .then(party => {
             console.log(party)
             res.render('parties/show', { party, session: session })
@@ -167,7 +166,9 @@ router.get('/', (req, res) => {
             // then, find all the parties owned by that user
             Party.find({owner: userId})
                 // then, send all of this data to the index page, including session to display the current username
+                .populate('movies')
                 .then(parties => {
+                    console.log(parties)
                     res.render('parties/index', {session: session, user, parties})
                 })
                 .catch(err => res.json(err))

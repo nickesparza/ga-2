@@ -22,10 +22,7 @@ const partySchema = new Schema({
     snacks: [snackSchema],
     watched: { type: Boolean, default: false },
     // I might not need this attribute
-    archived: Boolean,
-    // movies will be a schema ref
-    // TODO: create and link movie schema
-    // movies: [movieSchema]???
+    archived: Boolean
 }, { timestamps: true })
 
 const Party = model('Party', partySchema)

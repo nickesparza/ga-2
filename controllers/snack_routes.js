@@ -25,6 +25,7 @@ router.post('/:partyId', (req, res) => {
 // EDIT snack
 router.put('/:partyId/:snackId', (req, res) => {
     const { partyId, snackId } = req.params
+    // why is this console.log so dangerous
     // console.log(`This is the request body: ${req.body}`)
     Party.findById(partyId)
         .then(party => {

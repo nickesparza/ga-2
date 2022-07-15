@@ -5,7 +5,6 @@ const fetch = require('node-fetch')
 const router = express.Router()
 // import Fruit model to access database
 const Party = require('../models/party')
-const Movie = require('../models/movie')
 const User = require('../models/user')
 const Archive = require('../models/archive')
 
