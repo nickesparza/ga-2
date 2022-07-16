@@ -3,51 +3,83 @@
 {% block content %}
 
 {% if session.username %}
-    <p>Hello, {{session.username}}!</p>
-        <div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-auto">
             <h2>{{party.name}}</h2>
-            <a href="/parties/{{party._id}}/edit">Edit Details</a>
             <h3>{{party.date}}</h3>
-            <form action="/archives/{{party._id}}?_method=PUT" method="POST">
-                <input class="btn btn-warning" type="submit" value="Mark Complete">
-            </form>
+            <div class="row row-cols-auto mb-2">
+                <div class="col">
+                    <a href="/parties/{{party._id}}/edit" class="btn btn-success btn-sm">Edit Details</a>
+                </div>
+                <div class="col">
+                    <form action="/archives/{{party._id}}?_method=PUT" method="POST">
+                        <input class="btn btn-warning btn-sm" type="submit" value="Mark Complete">
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="row row-cols-auto">
+                <div class="col">
+                    <a href="/parties/" class="btn btn-info">Back to Index</a>
+                </div>
+            </div> -->
+        </div>
+        <div class="col">
             <div class="row">
+                <div class="col-auto">
+                    <h2>Watchlist</h2>
+                </div>
+                <div class="col">
+                    <a href="/parties/{{party._id}}/search" class="btn btn-success">Add a Movie</a>
+                </div>
+            </div>
+            {% if party.movies.length > 0 %}
                 {% for movie in party.movies %}
-                    <div class="card" style="width: 24rem">
-                    <h5 class="card-header">{{movie.title}}</h5>
-                        <div class="card-body">
-                            <img style="max-width: 50%;"src="{{movie.image}}">
+                    <div class="row">
+                        <div class="col-md">
+                            <h5>{{movie.title}}</h5>
                         </div>
-                        <div class="card-body">
-                            <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                        <div class="d-flex col-md justify-content-lg-end justify-content-md-start">
                             <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-danger" value="Delete Movie">
+                                <input type="submit" class="btn btn-danger btn-sm" value="Delete Movie">
                             </form>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-md">
+                            <img src="{{movie.image}}">
+                        </div>
+                        <div class="col-md">
+                            <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                        </div>
+                    </div>
                 {% endfor %}
+            {% else %}
+                <div class="row justify-content-center">
+                    <h2>Add a movie!</h2>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-xl-auto">
+            <div class="row">
+                <h2>Snack List</h2>
+                <div class="col">
+                    <form action="/snacks/{{party._id}}" method="POST">
+                        <fieldset>
+                            <label for="name">Snack Name</label>
+                            <input type="text" id="name" name="name" minlength="1" class="form-control">
+                            <label for="purchased">Have you bought it yet?</label>
+                            <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
+                        </fieldset>
+                        <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-success">
+                    </form>
+                </div>
             </div>
-            <a href="/parties/{{party._id}}/search" class="btn btn-success">Add a Movie</a>
-            <a href="/parties/" class="btn btn-info">Back to Index</a>
-        </div>
-        <div class="container">
-            <form action="/snacks/{{party._id}}" method="POST">
-                <fieldset>
-                    <label for="name">Snack Name</label>
-                    <input type="text" id="name" name="name" minlength="1" class="form-control">
-                    <label for="purchased">Have you bought it yet?</label>
-                    <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
-                </fieldset>
-                <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-success">
-            </form>
-        </div>
-        {% if party.snacks.length > 0 %}
-            <div class="container">
+            <div class="row">
                 {% for snack in party.snacks %}
                     <div>
-                        <p>{{snack.name}}</p>
+                        <h3>{{snack.name}}</h3>
                         {% if snack.purchased %}
-                            <p>Don't worry, it's ready to go.</p>
                             <form id="stockCheck" action="/snacks/{{party._id}}/{{snack._id}}?_method=PUT" method="POST">
                                 <label>In Stock</label>
                                 <input
@@ -71,13 +103,14 @@
                             </form>
                         {% endif %}
                         <form action="/snacks/{{party._id}}/{{snack._id}}?_method=DELETE" method="POST">
-                            <input type="submit" class="btn btn-danger" value="Delete Snack">
+                            <input type="submit" class="btn btn-danger btn-sm" value="Delete Snack">
                         </form>
                     </div>
                 {% endfor %}
             </div>
-        {% endif %}
+        </div>
     </div>
+</div>
 {% endif %}
         
 {% endblock %}

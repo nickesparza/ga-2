@@ -11,13 +11,13 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a href="/parties" class="navbar-brand">WatchParty</a>
+        <a href="/parties" class="navbar-brand mx-4">WatchParty</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             {% if session.username %}
-                <a href="/user/logout" class="nav-link text-light">Log Out</a>
+                <a href="/user/logout" class="nav-link text-light mx-4">Log Out</a>
             {% else %}
                 <a href="/user/login" class="nav-link text-light">Log In</a>
                 <a href="/user/signup" class="nav-link text-light">Sign Up</a>
