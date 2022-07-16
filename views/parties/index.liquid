@@ -2,14 +2,13 @@
 
 {% block content %}
 {% if session.username %}
-    <p>Hello, {{session.username}}!</p>
-    <div>
+    <div class="container">
         <h2>Active Watch Parties</h2>
         <div class="row">
             <a href="/parties/new">Create New Watch Party</a>
             <a href="/archives">View Archives</a>
             {% if parties.length < 1 %}
-                <p class="card-text">This will be where parties go</p>
+                <p>This will be where parties go</p>
             {% else %}
                 {% for party in parties %}
                     <div class="card" style="width: 18rem">
@@ -19,11 +18,14 @@
                                 {{party.date}}
                             </h6>
                             {% for movie in party.movies %}
-                                <img style="max-width: 50%" src="{{movie.image}}">
+                                <img style="max-width: 45%; display: inline" class="img-thumbnail img-fluid" src="{{movie.image}}">
                             {% endfor %}
-                            <a href="/parties/{{party._id}}" class="btn btn-info">View {{party.name}}</a>
+                            <a href="/parties/{{party._id}}" class="btn btn-info btn-sm">View</a>
+                            <form action="/archives/{{party._id}}?_method=PUT" method="POST">
+                                <input class="btn btn-warning btn-sm" type="submit" value="Archive">
+                            </form>
                             <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
-                            <input type="submit" value="Delete {{party.name}}" class="btn btn-danger">
+                                <input type="submit" class="btn btn-danger btn-sm"  value="Delete">
                             </form>
                         </div>
                     </div>

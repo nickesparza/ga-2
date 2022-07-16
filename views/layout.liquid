@@ -17,12 +17,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             {% if session.username %}
-                <a href="/user/logout" class="nav-link text-light mx-4">Log Out</a>
+                <a href="/parties" class="nav-link text-light mx-2">All Parties</a>
+                <a href="/archives" class="nav-link text-light mx-2">Archives</a>
+                <a href="/user/logout" class="nav-link text-light mx-2">Log Out</a>
             {% else %}
-                <a href="/user/login" class="nav-link text-light">Log In</a>
-                <a href="/user/signup" class="nav-link text-light">Sign Up</a>
+                <a href="/user/login" class="nav-link text-light mx-2">Log In</a>
+                <a href="/user/signup" class="nav-link text-light mx-2">Sign Up</a>
             {% endif %}
-            <a class="nav-link text-light">this is the logged-in user: {{session.username}}</a>
+            <a class="nav-item text-light">this is the logged-in user: {{session.username}}</a>
         </div>
     </nav>
     <main class="container-md">
