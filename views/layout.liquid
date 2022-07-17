@@ -24,10 +24,10 @@
                 <a href="/user/login" class="nav-link text-light mx-2">Log In</a>
                 <a href="/user/signup" class="nav-link text-light mx-2">Sign Up</a>
             {% endif %}
-            <a class="nav-item text-light">this is the logged-in user: {{session.username}}</a>
+            <!-- <a class="nav-item text-light">this is the logged-in user: {{session.username}}</a> -->
         </div>
     </nav>
-    <main class="container-md">
+    <main class="m-4">
         {% block content %}
             My content
         {% endblock %}

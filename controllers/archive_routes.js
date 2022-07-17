@@ -32,6 +32,14 @@ router.put('/:partyId', (req, res) => {
         .catch(err => console.log(err))
 })
 
+// unmark a party as archived
+router.put('/:partyId/unarchive', (req, res) => {
+    const partyId = req.params.partyId
+    Party.findByIdAndUpdate(partyId, {watched: false})
+    .then(res.redirect(`/archives`))
+    .catch(err => console.log(err))
+})
+
 // INDEX all archived
     router.get('/', (req, res) => {
         console.log(req.session)
@@ -55,7 +63,7 @@ router.put('/:partyId', (req, res) => {
             .catch(err => console.log(err))
         } else {
             // if there is no active session, show the index
-            res.redirect('parties/index')
+            res.redirect('parties/')
         }
     })
 

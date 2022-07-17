@@ -1,38 +1,40 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-    <div class="container-md">
-        <form action="/parties/{{id}}/search" method="POST">
-                <legend>Search for a Movie</legend>
-                <input type="text" name="title" class="form-control" minlength="1" placeholder="Enter a title or part of a title here">
-            <input 
-                type="submit" 
-                value="Search" 
-                class="btn btn-success"
-            >
-        </form>
-    </div>
-    <div class="container-md">
-        <form action="/parties/{{id}}" method="GET">
-            <input class="btn btn-danger" type="submit" value="Return to Main Page">
-        </form>
-    </div>
-    {% if results %}
-        <div class="container-md">
-            <p>showing results for {{search}}</p>
-            <div class="row">
-                {% for result in results %}
-                    <div class="card" style="width: 18rem">
-                        <h5 class="card-header">{{result.title}}</h5>
-                        <div class="card-body">
-                            <img style="max-width: 100%" src="{{result.image}}">
-                            <form action="/parties/{{id}}/{{result.id}}?_method=PUT" method="POST">
-                                <input class="btn btn-success" type="submit" value="Add to Watch Party">
-                            </form>
-                        </div>
-                    </div>
-                {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form action="/parties/{{id}}/search" method="POST">
+                        <legend>Search for a Movie</legend>
+                        <input type="text" name="title" class="form-control" minlength="1" placeholder="Enter a title or part of a title here">
+                    <input 
+                        type="submit" 
+                        value="Search" 
+                        class="btn btn-success my-3"
+                    >
+                    <form action="/parties/{{id}}" method="GET">
+                        <input class="btn btn-primary" type="submit" value="Return to Main Page">
+                    </form>
+                </form>
             </div>
         </div>
+    {% if results %}
+        <div class="row">
+            <p>showing results for {{search}}</p>
+        </div>
+        <div class="row">
+            {% for result in results %}
+                <div class="card" style="width: 18rem">
+                    <div class="card-body" style="text-align: center">
+                        <img src="{{result.image}}" class="img-fluid">
+                        <h5>{{result.title}}</h5>
+                        <form action="/parties/{{id}}/{{result.id}}?_method=PUT" method="POST">
+                            <input class="btn btn-primary" type="submit" value="Add to Watch Party">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
     {% endif %}
     {% endblock %}

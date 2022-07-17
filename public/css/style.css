@@ -1,11 +1,11 @@
 body {
-    background-color: rgb(160, 81, 81);
+    background-color: rgb(81, 95, 160);
     color: white;
 }
 
 .card {
     color: black;
-    background-color: pink;
+    background-color: rgb(146, 162, 235);
     max-height: fit-content;
 }
 
@@ -15,10 +15,28 @@ body {
     object-position: 10% 10%;
 }
 
+.movie-container {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.snack-container {
+    border-top: 2px solid black;
+}
+
+a {
+    text-decoration: none;
+    color: black
+}
+
+a:hover {
+    color: black
+}
+
 /* #navbarNav > a {
     margin: 4px;
 } */
 
-div {
+/* div {
     border: 1px solid white;
-}
+} */

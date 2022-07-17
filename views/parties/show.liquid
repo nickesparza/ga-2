@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if session.username %}
-<div class="container-fluid mt-3">
+<div class="container mt-3">
     <div class="row">
         <div class="col-lg-auto">
             <h2>{{party.name}}</h2>
@@ -24,7 +24,7 @@
                 </div>
             </div> -->
         </div>
-        <div class="col">
+        <div class="col movie-container">
             <div class="row">
                 <div class="col-auto">
                     <h2>Watchlist</h2>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md">
+                        <div class="col">
                             <img class="img-fluid" src="{{movie.image}}">
                         </div>
                         <div class="col-md">
@@ -61,24 +61,26 @@
             {% endif %}
         </div>
         <div class="col-xl-auto">
-            <div class="row">
+            <div class="row mb-3">
                 <h2>Snack List</h2>
                 <div class="col">
                     <form action="/snacks/{{party._id}}" method="POST">
                         <fieldset>
                             <label for="name">Snack Name</label>
                             <input type="text" id="name" name="name" minlength="1" class="form-control">
-                            <label for="purchased">Have you bought it yet?</label>
+                            <label for="purchased">In Stock</label>
                             <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
                         </fieldset>
                         <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-success">
                     </form>
                 </div>
             </div>
-            <div class="row">
-                {% for snack in party.snacks %}
-                    <div>
+            {% for snack in party.snacks %}
+                <div class="row justify-content-between snack-container">
+                    <div class="col-auto">
                         <h3>{{snack.name}}</h3>
+                    </div>
+                    <div class="col-auto">
                         {% if snack.purchased %}
                             <form id="stockCheck" action="/snacks/{{party._id}}/{{snack._id}}?_method=PUT" method="POST">
                                 <label>In Stock</label>
@@ -91,7 +93,6 @@
                                 >
                             </form>
                         {% else %}
-                            <p>Oops, looks like you need to make a grocery run.</p>
                             <form id="stockCheck" action="/snacks/{{party._id}}/{{snack._id}}?_method=PUT" method="POST">
                                 <label>In Stock</label>
                                 <input
@@ -102,12 +103,16 @@
                                 >
                             </form>
                         {% endif %}
+                    </div>
+                </div>
+                <div class="row justify-content-end mb-3">
+                    <div class="col-auto">
                         <form action="/snacks/{{party._id}}/{{snack._id}}?_method=DELETE" method="POST">
                             <input type="submit" class="btn btn-danger btn-sm" value="Delete Snack">
                         </form>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>
