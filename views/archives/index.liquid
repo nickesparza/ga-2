@@ -3,8 +3,7 @@
 {% block content %}
 
 {% if session.username %}
-    <p>Hello, {{session.username}}!</p>
-    <div>
+    <div class="container">
         <div class="row">
             {% if archives.length < 1 %}
                 <p class="card-text">This will be where archives go</p>
@@ -16,8 +15,10 @@
                                 <h6 class="card-title">
                                     {{archive.date}}
                                 </h6>
-                            
-                            <a href="/archives/{{archive._id}}" class="btn btn-info">View {{archive.name}}</a>
+                                {% for movie in archive.movies %}
+                                    <img style="max-width: 45%; display: inline" class="img-thumbnail img-fluid" src="{{movie.image}}">
+                                {% endfor %}
+                                <a href="/archives/{{archive._id}}" class="btn btn-info">View {{archive.name}}</a>
                         </div>
                     </div>
                 {% endfor %}

@@ -45,7 +45,9 @@ router.put('/:partyId', (req, res) => {
                 // then, find all the parties owned by that user
                 Party.find({owner: userId, watched: true})
                     // then, send all of this data to the index page, including session to display the current username
+                    .populate('movies')
                     .then(archives => {
+                        console.log(archives)
                         res.render('archives/index', {session: session, user, archives})
                     })
                     .catch(err => console.log(err))

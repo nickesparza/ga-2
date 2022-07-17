@@ -2,33 +2,50 @@
 
 {% block content %}
 {% if session.username %}
-    <div class="container">
+    <div class="container mt-3">
         <h2>Active Watch Parties</h2>
+        <div class="row mb-3">
+            <div class="col-auto">
+                <a href="/parties/new" class="btn btn-primary">Create New Watch Party</a>
+            </div>
+            <div class="col-auto">
+                <a href="/archives" class="btn btn-secondary">View Archives</a>
+            </div>
+        </div>
         <div class="row">
-            <a href="/parties/new">Create New Watch Party</a>
-            <a href="/archives">View Archives</a>
             {% if parties.length < 1 %}
                 <p>This will be where parties go</p>
             {% else %}
                 {% for party in parties %}
-                    <div class="card" style="width: 18rem">
-                        <h5 class="card-header">{{party.name}}</h5>
+                <div class="col-auto">
+                    <div class="card mx-2" style="width: 18rem">
+                        <a href="/parties/{{party._id}}"><img src="{{party.movies[0].image}}" class="card-img-top img-preview"></a>
                         <div class="card-body">
+                            <h5 class="card-title">{{party.name}}</h5>
                             <h6 class="card-title">
                                 {{party.date}}
                             </h6>
-                            {% for movie in party.movies %}
-                                <img style="max-width: 45%; display: inline" class="img-thumbnail img-fluid" src="{{movie.image}}">
-                            {% endfor %}
-                            <a href="/parties/{{party._id}}" class="btn btn-info btn-sm">View</a>
-                            <form action="/archives/{{party._id}}?_method=PUT" method="POST">
-                                <input class="btn btn-warning btn-sm" type="submit" value="Archive">
-                            </form>
-                            <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-danger btn-sm"  value="Delete">
-                            </form>
+                            <!-- {% for movie in party.movies %}
+                                <img style="max-width: 45%; display: inline" class="img-fluid" src="{{movie.image}}">
+                            {% endfor %} -->
+                            <div class="row">
+                                <div class="col">
+                                    <a href="/parties/{{party._id}}" class="btn btn-info btn-sm">View</a>
+                                </div>
+                                <div class="col">
+                                    <form action="/archives/{{party._id}}?_method=PUT" method="POST">
+                                        <input class="btn btn-warning btn-sm" type="submit" value="Archive">
+                                    </form>
+                                </div>
+                                <div class="col">
+                                    <form action="/parties/{{party._id}}?_method=DELETE" method="POST">
+                                        <input type="submit" class="btn btn-danger btn-sm"  value="Delete">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             {% endif %}
         </div>

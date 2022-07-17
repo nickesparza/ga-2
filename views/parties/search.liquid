@@ -26,7 +26,6 @@
                         <h5 class="card-header">{{result.title}}</h5>
                         <div class="card-body">
                             <img style="max-width: 100%" src="{{result.image}}">
-                            <p>{{result.id}}</p>
                             <form action="/parties/{{id}}/{{result.id}}?_method=PUT" method="POST">
                                 <input class="btn btn-success" type="submit" value="Add to Watch Party">
                             </form>

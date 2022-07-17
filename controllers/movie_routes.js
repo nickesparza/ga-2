@@ -21,7 +21,7 @@ router.delete('/:movieId/:partyId', async (req, res) => {
         .catch(err => console.log(err))
     Movie.findByIdAndUpdate(movieToDelete, {$pull: {parties: partyToDeleteFrom}})
         .then(movie => {
-            console.log(`THIS IS WHAT THE ${movie.title} PARTIES ARRAY LOOKS LIKE: ${movie.parties}`)
+            // console.log(`THIS IS WHAT THE ${movie.title} PARTIES ARRAY LOOKS LIKE: ${movie.parties}`)
             res.redirect(`/parties/${partyToDeleteFrom}`)
         })
         .catch(err => console.log(err))

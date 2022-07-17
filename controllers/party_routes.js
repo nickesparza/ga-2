@@ -101,17 +101,22 @@ router.get('/:id/search', (req, res) => {
 // POST
 // THIS WILL NEED TO CHANGE TO A FETCH REQUEST TO IMDB
 // TODO: change to fetch request
-router.post('/:id/search', (req, res) => {
+router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
     if (searchTerm) {
-        Test.find({title: { $regex: searchTerm, $options: "i" }})
-        .then(results => {
-            // console.log(results)
-            res.render('parties/search', { results, id: partyId, session, search: searchTerm })
-        })
-        .catch(err => console.error(err))
+        const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
+        const response = await fetch(searchUrl)
+        const searchResults = await response.json()
+        // console.log(searchResults)
+        res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
+        // Test.find({title: { $regex: searchTerm, $options: "i" }})
+        // .then(results => {
+        //     // console.log(results)
+        //     res.render('parties/search', { results, id: partyId, session, search: searchTerm })
+        // })
+        // .catch(err => console.error(err))
     } else {
         res.redirect(`/parties/${partyId}/search`)
     }
