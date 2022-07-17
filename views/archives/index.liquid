@@ -3,28 +3,48 @@
 {% block content %}
 
 {% if session.username %}
-    <div class="container">
-        <div class="row">
+    <div class="container mt-3">
+        <h2>WatchParty Archive</h2>
+        <div class="row mb-3">
             {% if archives.length < 1 %}
-                <p class="card-text">This will be where archives go</p>
+                <p>This will be where archives go</p>
             {% else %}
                 {% for archive in archives %}
-                    <div class="card" style="width: 18rem">
-                        <h5 class="card-header">{{archive.name}}</h5>
-                            <div class="card-body">
-                                <h6 class="card-title">
-                                    {{archive.date}}
-                                </h6>
-                                {% for movie in archive.movies %}
-                                    <img style="max-width: 45%; display: inline" class="img-thumbnail img-fluid" src="{{movie.image}}">
-                                {% endfor %}
-                                <a href="/archives/{{archive._id}}" class="btn btn-info">View {{archive.name}}</a>
+                <div class="col-auto">
+                    <div class="card mx-1" style="width: 18rem">
+                        <a href="/archives/{{archive._id}}"><img src="{{archive.movies[0].image}}" class="card-img-top img-preview"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{archive.name}}</h5>
+                            <h6 class="card-title">
+                                {{archive.date}}
+                            </h6>
+                            <!-- {% for movie in archive.movies %}
+                                <img style="max-width: 45%; display: inline" class="img-fluid" src="{{movie.image}}">
+                            {% endfor %} -->
+                            <!-- <div class="row">
+                                <div class="col">
+                                    <a href="/archives/{{archive._id}}" class="btn btn-info btn-sm">View</a>
+                                </div>
+                                <div class="col">
+                                    <form action="/archives/{{archive._id}}?_method=PUT" method="POST">
+                                        <input class="btn btn-warning btn-sm" type="submit" value="Archive">
+                                    </form>
+                                </div>
+                                <div class="col">
+                                    <form action="/archives/{{archive._id}}?_method=DELETE" method="POST">
+                                        <input type="submit" class="btn btn-danger btn-sm"  value="Delete">
+                                    </form>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             {% endif %}
         </div>
     </div>
-{% endif %}
+{% else %}
+    <h1>hello there sailor. Why not log in to see something?</h1>
+{% endif %}  
         
 {% endblock %}
