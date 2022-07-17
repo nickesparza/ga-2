@@ -6,9 +6,6 @@ const router = express.Router()
 const Movie = require('../models/movie')
 const Party = require('../models/party')
 
-// NEW movie search
-// GET
-
 // DELETE movie from a party
 // DELETE
 router.delete('/:movieId/:partyId', async (req, res) => {

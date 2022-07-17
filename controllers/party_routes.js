@@ -7,7 +7,7 @@ const router = express.Router()
 const Party = require('../models/party')
 const User = require('../models/user')
 const Movie = require('../models/movie')
-const Test = require('../testdata/test')
+// const Test = require('../testdata/test')
 
 const key = process.env.API_KEY
 
@@ -15,6 +15,7 @@ const key = process.env.API_KEY
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
+    // before deleting the party, remove references to it from all movies inside
     Movie.find({parties: partyId})
         .then(movies => {
             movies.forEach(movie => {
@@ -47,10 +48,10 @@ router.post('/new', (req, res) => {
     req.body.owner = userId
     // console.log(`this is the request body being sent`)
     // console.log(req.body)
-    req.body.date = req.body.date
+    req.body.jsDate = Date.parse(req.body.date)
     Party.create(req.body)
         .then(party => {
-            // console.log(party)
+            console.log(party)
             // associate the new party with the user who is logged in
             User.findById(userId)
                 .then(user => {
@@ -71,7 +72,7 @@ router.get('/:id/edit', (req, res) => {
     const session = req.session
     Party.findById(partyId)
         .then(party => {
-            res.redirect('parties/edit', {party, session})
+            res.render('parties/edit', {party, session})
         })
 })
 
@@ -79,6 +80,7 @@ router.get('/:id/edit', (req, res) => {
 // PUT
 router.put('/:id/edit', (req, res) => {
     const partyId = req.params.id
+    req.body.jsDate = Date.parse(req.body.date)
     const newDetails = req.body
     // console.log(req.body)
     Party.findByIdAndUpdate(partyId, newDetails)
@@ -99,8 +101,6 @@ router.get('/:id/search', (req, res) => {
 
 // return search results
 // POST
-// THIS WILL NEED TO CHANGE TO A FETCH REQUEST TO IMDB
-// TODO: change to fetch request
 router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
@@ -157,13 +157,14 @@ router.get('/:id', (req, res) => {
     // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
+    const now = Date.now()
     // find party
     Party.findById(partyId)
         // then, populate movies and snacks inside of party
         .populate('movies')
         .then(party => {
-            // console.log(party)
-            res.render('parties/show', { party, session: session })
+            console.log(party.jsDate)
+            res.render('parties/show', { party, session: session, now })
         })
         .catch(err => console.error(err))
 })
@@ -175,6 +176,8 @@ router.get('/', (req, res) => {
     const userId = req.session.userId
     // console.log(`this is the userID: ${userId}`)
     const session = req.session
+    // get the date for purposes of comparison
+    const now = Date.now()
     // if there is an active session, find the user
     if (req.session.username) {
         User.findById(userId)
@@ -185,7 +188,7 @@ router.get('/', (req, res) => {
                 .populate('movies')
                 .then(parties => {
                     // console.log(parties)
-                    res.render('parties/index', {session: session, user, parties})
+                    res.render('parties/index', {session: session, user, parties, now})
                 })
                 .catch(err => console.error(err))
         })

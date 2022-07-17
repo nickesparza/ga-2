@@ -69,11 +69,11 @@ router.post('/login', async (req, res) => {
                 } else {
                     // if passwords don't match, send error message
                     // send a res.json error message
-                    res.json({ error: 'username or password incorrect' })
+                    res.send('username or password is incorrect.')
                 }
             } else {
                 // send an error if user doesn't exist
-                res.json({ error: 'user does not exist' })
+                res.send('user does not exist')
             }
         })
         // if username doesn't exist, redirect to signup page
@@ -94,11 +94,5 @@ router.get('/logout', (req, res) => {
         res.redirect('/parties')
     })
 })
-
-// fallback route redirect to login page
-// GET
-// router.get('/*', (req, res) => {
-//     res.redirect('user/login')
-// })
 
 module.exports = router

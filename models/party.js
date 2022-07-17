@@ -8,6 +8,8 @@ const { Schema, model } = mongoose
 const partySchema = new Schema({
     name: { type: String, required: true },
     date: String,
+    jsDate: Number,
+    past: {type: Boolean, default: false},
     // this will refer to the owner of the party for the purposes of displaying a user's parties
     owner: {
         type: Schema.Types.ObjectId,
