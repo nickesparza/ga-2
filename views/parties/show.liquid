@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if session.username %}
-<div class="container mt-3">
+<div class="container p-4 my-6">
     <div class="row">
         <div class="col-lg-auto">
             <h2>{{party.name}}</h2>
@@ -15,7 +15,7 @@
             {% endif %}
             <div class="row row-cols-auto mb-2">
                 <div class="col">
-                    <a href="/parties/{{party._id}}/edit" class="btn btn-success btn-sm">Edit Details</a>
+                    <a href="/parties/{{party._id}}/edit" class="btn btn-info btn-sm">Edit Details</a>
                 </div>
                 <div class="col">
                     <form action="/archives/{{party._id}}?_method=PUT" method="POST">
@@ -35,7 +35,7 @@
                     <h2>Watchlist</h2>
                 </div>
                 <div class="col">
-                    <a href="/parties/{{party._id}}/search" class="btn btn-success">Add a Movie</a>
+                    <a href="/parties/{{party._id}}/search" class="btn btn-primary">Add a Movie</a>
                 </div>
             </div>
             {% if party.movies.length > 0 %}
@@ -44,18 +44,25 @@
                         <div class="col-md">
                             <h5>{{movie.title}}</h5>
                         </div>
-                        <div class="d-flex col-md justify-content-lg-end justify-content-md-start">
+                        <!-- <div class="d-flex col-md justify-content-lg-end justify-content-md-start">
                             <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-danger btn-sm" value="Delete Movie">
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row mb-3">
                         <div class="col">
                             <img class="img-fluid" src="{{movie.image}}">
                         </div>
                         <div class="col-md">
-                            <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                            <div class="row">
+                                <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                            </div>
+                            <div class="row">
+                                <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete Movie">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -68,7 +75,7 @@
         <div class="col-xl-auto">
             <div class="row mb-3">
                 <h2>Snack List</h2>
-                <div class="col">
+                <!-- <div class="col"> -->
                     <form action="/snacks/{{party._id}}" method="POST">
                         <fieldset>
                             <label for="name">Snack Name</label>
@@ -76,9 +83,9 @@
                             <label for="purchased">In Stock</label>
                             <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
                         </fieldset>
-                        <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-success">
+                        <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-info my-1">
                     </form>
-                </div>
+                <!-- </div> -->
             </div>
             {% for snack in party.snacks %}
                 <div class="row justify-content-between snack-container">

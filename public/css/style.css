@@ -1,12 +1,42 @@
+html {
+    height: 100%;
+}
+
 body {
-    background-color: rgb(81, 95, 160);
+    /* background-color: rgb(81, 95, 160); */
+    background-image: url('/images/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    height: 100%;
+    font-family: 'Barlow', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
     color: white;
 }
 
 .card {
-    color: black;
-    background-color: rgb(146, 162, 235);
+    color: white;
+    background-color: rgb(17, 17, 95);
     max-height: fit-content;
+}
+
+.btn-primary {
+    background-color: rgb(17, 17, 95);
+    border: 1px solid rgb(17, 17, 95);
+}
+
+.container {
+    background-color: rgba(0,0,0,0.75);
+    border-radius: 12px;
+    /* height: 100%; */
 }
 
 .img-preview {
@@ -16,26 +46,13 @@ body {
 }
 
 .movie-container {
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
 }
 
 .snack-container {
     border-top: 2px solid black;
 }
-
-a {
-    text-decoration: none;
-    color: black
-}
-
-a:hover {
-    color: black
-}
-
-/* #navbarNav > a {
-    margin: 4px;
-} */
 
 /* div {
     border: 1px solid white;
