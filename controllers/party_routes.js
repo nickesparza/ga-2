@@ -149,7 +149,7 @@ router.put('/:id/:movieId', async (req, res) => {
         })
         res.redirect(`/parties/${partyId}`)
     } else {
-        // since the movie doesn't exits, create it and add it to the party
+        // since the movie doesn't exist, create it and add it to the party
         console.log(`these movies are not the same!!!!!`)
         Movie.create(movieToAdd)
         .then(movie => {

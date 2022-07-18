@@ -78,8 +78,7 @@
                 <!-- <div class="col"> -->
                     <form action="/snacks/{{party._id}}" method="POST">
                         <fieldset>
-                            <label for="name">Snack Name</label>
-                            <input type="text" id="name" name="name" minlength="1" class="form-control">
+                            <input type="text" id="name" name="name" minlength="1" placeholder="Enter snack" class="form-control my-1">
                             <label for="purchased">In Stock</label>
                             <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
                         </fieldset>
@@ -88,30 +87,27 @@
                 <!-- </div> -->
             </div>
             {% for snack in party.snacks %}
-                <div class="row justify-content-between snack-container">
+                <div class="row justify-content-between snack-container py-3">
                     <div class="col-auto">
                         <h3>{{snack.name}}</h3>
                     </div>
                     <div class="col-auto">
                         {% if snack.purchased %}
                             <form id="stockCheck" action="/snacks/{{party._id}}/{{snack._id}}?_method=PUT" method="POST">
-                                <label>In Stock</label>
                                 <input
-                                    type="checkbox"
-                                    class="form-check-input"
+                                    type="submit"
+                                    class="btn btn-sm btn-info"
                                     name="purchased"
-                                    checked
-                                    onchange="document.getElementById('stockCheck').submit()"
+                                    value="In Stock"                          
                                 >
                             </form>
                         {% else %}
                             <form id="stockCheck" action="/snacks/{{party._id}}/{{snack._id}}?_method=PUT" method="POST">
-                                <label>In Stock</label>
                                 <input
-                                    type="checkbox"
-                                    class="form-check-input"
+                                    type="submit"
+                                    class="btn btn-sm btn-outline-info"
                                     name="purchased"
-                                    onchange="document.getElementById('stockCheck').submit()"
+                                    value="Out of Stock"
                                 >
                             </form>
                         {% endif %}
