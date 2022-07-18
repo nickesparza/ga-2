@@ -133,7 +133,25 @@ router.put('/:id/:movieId', async (req, res) => {
     const movieToAdd = await response.json()
     // console.log(movieToAdd.id)
     // TODO: this will create a movie even if it already exists in the db, fix it at some point
-    Movie.create(movieToAdd)
+    const movieToFind = await Movie.findOne({id: movieToAdd.id})
+    // console.log(movieToFind)
+    // console.log(`${movieToFind.id}, ${movieToAdd.id}`)
+    if (movieToFind !== null && movieToAdd.id === movieToFind.id) {
+        // add the existing movie to the watch party instead of creating it
+        console.log(`these movies are the same!!!!!`)
+        const party = Party.findById(partyId, function (err, party) {
+            party.movies.push(movieToFind)
+            return party.save()
+        })
+        Movie.findOne({id: movieToFind.id}, function (err, movie) {
+            movie.parties.push(partyId)
+            return movie.save()
+        })
+        res.redirect(`/parties/${partyId}`)
+    } else {
+        // since the movie doesn't exits, create it and add it to the party
+        console.log(`these movies are not the same!!!!!`)
+        Movie.create(movieToAdd)
         .then(movie => {
             // console.log(movie)
             Party.findById(partyId)
@@ -149,6 +167,23 @@ router.put('/:id/:movieId', async (req, res) => {
                 .catch(err => console.error(err))
         })
         .catch(err => console.error(err))
+    }
+    // Movie.create(movieToAdd)
+    //     .then(movie => {
+    //         // console.log(movie)
+    //         Party.findById(partyId)
+    //             .then(party => {
+    //                 party.movies.push(movie)
+    //                 return party.save()
+    //             })
+    //             .then(party => {
+    //                 movie.parties.push(party)
+    //                 return movie.save()
+    //             })
+    //             .then(res.redirect(`/parties/${partyId}`))
+    //             .catch(err => console.error(err))
+    //     })
+    //     .catch(err => console.error(err))
 })
 
 // SHOW a single watch party
@@ -163,7 +198,7 @@ router.get('/:id', (req, res) => {
         // then, populate movies and snacks inside of party
         .populate('movies')
         .then(party => {
-            console.log(party.jsDate)
+            // console.log(party.jsDate)
             res.render('parties/show', { party, session: session, now })
         })
         .catch(err => console.error(err))
