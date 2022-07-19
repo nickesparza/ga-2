@@ -194,16 +194,23 @@ router.get('/:id', (req, res) => {
     // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
-    const now = Date.now()
     // find party
-    Party.findById(partyId)
-        // then, populate movies and snacks inside of party
-        .populate('movies')
-        .then(party => {
-            // console.log(party.jsDate)
-            res.render('parties/show', { party, session: session, now })
-        })
-        .catch(err => console.error(err))
+    if (req.session.username) {
+        // console.log('there is a session')
+        // console.log(req.session)
+        Party.findById(partyId)
+            // then, populate movies and snacks inside of party
+            .populate('movies')
+            .then(party => {
+                const now = Date.now()
+                // console.log(party.jsDate)
+                res.render('parties/show', { party, session: session, now })
+            })
+            .catch(err => console.error(err))
+    } else {
+        // console.log('no such party found')
+        res.redirect('/parties')
+    }
 })
 
 // INDEX of all watch parties
@@ -238,5 +245,8 @@ router.get('/', (req, res) => {
 
 // fallback route redirect to index
 // GET
+// router.get('*', (req, res) => {
+//     res.redirect('/parties')
+// })
 
 module.exports = router

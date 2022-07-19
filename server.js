@@ -58,9 +58,8 @@ app.use('/snacks', snackRoutes)
 app.use('/movies', movieRoutes)
 app.use('/archives', archiveRoutes)
 
-// basic home level confirmation of server running
-app.get('/', (req, res) => {
-	res.redirect(`/parties`)
+app.get('*', (req, res) => {
+	res.redirect('/parties')
 })
 
 ////////////////////////////////////////////
