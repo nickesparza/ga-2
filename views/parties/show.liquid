@@ -5,8 +5,8 @@
 {% if session.username %}
 <div class="container p-4 my-6">
     <div class="row">
-        <div class="col-lg-auto">
-            <h2>{{party.name}}</h2>
+        <div class="col-lg-3">
+            <h2 class="text-break">{{party.name}}</h2>
             {% if party.jsDate < now %}
             <h3>{{party.date}}</h3>
                 <p>This date has passed.</p>
@@ -56,10 +56,10 @@
                         </div>
                         <div class="col-md">
                             <div class="row">
-                                <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                                <p>{{movie.plot}}</p>
+                                <p>{{movie.runtimeStr}}</p>
                             </div>
                             <div class="row">
-                                <a href="/movies/{{movie._id}}/{{party._id}}/{{forloop.index0}}">This is a test link</a>
                                 <form action="/movies/{{movie._id}}/{{party._id}}/{{forloop.index0}}?_method=DELETE" method="POST">
                                     <input type="submit" class="btn btn-danger btn-sm" value="Delete Movie">
                                 </form>
@@ -73,7 +73,7 @@
                 </div>
             {% endif %}
         </div>
-        <div class="col-xl-auto">
+        <div class="col-md-3">
             <div class="row mb-3">
                 <h2>Snack List</h2>
                 <!-- <div class="col"> -->
@@ -83,14 +83,14 @@
                             <label for="purchased">In Stock</label>
                             <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
                         </fieldset>
-                        <input type="submit" value="Add Snack to {{party.name}}" class="btn btn-info my-1">
+                        <input type="submit" value="Add Snack" class="btn btn-info my-1">
                     </form>
                 <!-- </div> -->
             </div>
             {% for snack in party.snacks %}
                 <div class="row justify-content-between snack-container py-3">
-                    <div class="col-auto">
-                        <h3>{{snack.name}}</h3>
+                    <div class="col">
+                        <h3 class="text-break">{{snack.name}}</h3>
                     </div>
                     <div class="col-auto">
                         {% if snack.purchased %}

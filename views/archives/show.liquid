@@ -5,8 +5,8 @@
 {% if session.username %}
 <div class="container p-4 my-6">
     <div class="row">
-        <div class="col-lg-2">
-            <h2>{{party.name}}</h2>
+        <div class="col-lg-3">
+            <h2 class="text-break">{{party.name}}</h2>
             <h3>{{party.date}}</h3>
             <!-- <div class="row row-cols-auto mb-2">
                 <div class="col">
@@ -51,7 +51,8 @@
                         </div>
                         <div class="col-md">
                             <div class="row">
-                                <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
+                                <p>{{movie.plot}}</p>
+                                <p>{{movie.runtimeStr}}</p>
                             </div>
                             <!-- <div class="row">
                                 <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
@@ -67,7 +68,7 @@
                 </div>
             {% endif %}
         </div>
-        <div class="col-xl-3">
+        <div class="col-md-3">
             <div class="row mb-3">
                 <h2>Snack List</h2>
                 <!-- <div class="col"> -->

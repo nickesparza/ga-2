@@ -30,8 +30,8 @@
                         <div class="card-body">
                             <a href="/parties/{{party._id}}"><h5 class="card-title">{{party.name}}</h5></a>
                             {% if party.jsDate < now %}
-                                <h6 class="card-title" style="color: white">
-                                    ! {{party.date}} !
+                                <h6 class="card-title" style="color: red; font-weight: bold;">
+                                    {{party.date}}
                                 </h6>
                             {% else %}
                                 <h6 class="card-title">
