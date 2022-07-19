@@ -24,18 +24,20 @@ router.post('/:partyId', (req, res) => {
 // EDIT snack
 router.put('/:partyId/:snackId', (req, res) => {
     const { partyId, snackId } = req.params
-    console.log(`This is the party ID that got passed in: ${partyId}`)
-    console.log(`This is the snack ID that got passed in: ${snackId}`)
+    // console.log(`This is the party ID that got passed in: ${partyId}`)
+    // console.log(`This is the snack ID that got passed in: ${snackId}`)
     Party.findById(partyId)
         .then(party => {
+            // find the subdoc with the correct snack ID
             const snackToUpdate = party.snacks.id(snackId)
-            console.log(`This is the snack we're trying to update: ${snackToUpdate}`)
+            // console.log(`This is the snack we're trying to update: ${snackToUpdate}`)
+            // could probably do this more elegantly but, it's the toggle for setting a snack as in stock
             if (snackToUpdate.purchased) {
                 snackToUpdate.purchased = false
             } else {
                 snackToUpdate.purchased = true
             }
-            console.log(`this is the current state of the purchased field: ${snackToUpdate.purchased}`)
+            // console.log(`this is the current state of the purchased field: ${snackToUpdate.purchased}`)
             return party.save()
         })
         .then(res.redirect(`/parties/${partyId}`))
@@ -47,7 +49,9 @@ router.delete('/:partyId/:snackId', (req, res) => {
     const { partyId, snackId } = req.params
     Party.findById(partyId)
         .then(party => {
+            // find the snack to delete
             const snackToDelete = party.snacks.id(snackId)
+            // remove it and save the party
             snackToDelete.remove()
             return party.save()
         })

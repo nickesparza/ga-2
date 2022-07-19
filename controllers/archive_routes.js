@@ -9,7 +9,7 @@ const User = require('../models/user')
 
 const key = process.env.API_KEY
 
-// mark a party as archived/watched
+// This marks a party as archived/watched and moves it to the archives page
 router.put('/:partyId', (req, res) => {
     const partyId = req.params.partyId
     // find the relevant watch party and set its 'watched' field to true
@@ -18,7 +18,7 @@ router.put('/:partyId', (req, res) => {
         .catch(err => console.log(err))
 })
 
-// unmark a party as archived
+// unmark a party as archived. This moves it back to the main watch party index
 router.put('/:partyId/unarchive', (req, res) => {
     const partyId = req.params.partyId
     // find the relevant watch party and set its 'watched' field to false
@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
     if (req.session.username) {
         User.findById(userId)
         .then(user => {
-            // then, find all the parties owned by that user
+            // then, find all the parties owned by that user that are marked as watched
             Party.find({owner: userId, watched: true})
                 // then, send all of this data to the index page, including session to display the current username
                 .populate('movies')
@@ -59,15 +59,21 @@ router.get('/:id', (req, res) => {
     // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
-    // find party
+    // if there is an active session, find the user
+    if (req.session.username) {
     Party.findById(partyId)
-        // then, populate movies and snacks inside of party
+        // then, populate movies inside of party
         .populate('movies')
+        // send that party info to browser along with session
         .then(party => {
             console.log(party)
             res.render('archives/show', { party, session: session })
         })
         .catch(err => console.log(err))
+    } else {
+        // if there is no active session, show the index
+        res.redirect('parties/')
+    }
 })
 
 module.exports = router

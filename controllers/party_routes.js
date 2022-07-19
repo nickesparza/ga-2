@@ -15,7 +15,7 @@ const key = process.env.API_KEY
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
-    // before deleting the party, remove references to it from all movies inside
+    // before deleting the party, remove references to it from all the movies inside its movies array
     Movie.find({parties: partyId})
         .then(movies => {
             movies.forEach(movie => {
@@ -27,6 +27,7 @@ router.delete('/:id', (req, res) => {
             })
             console.log(movies)
         })
+    // then, delete the party and go back to the index
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
         .catch(err => console.error(err))
@@ -48,10 +49,11 @@ router.post('/new', (req, res) => {
     req.body.owner = userId
     // console.log(`this is the request body being sent`)
     // console.log(req.body)
+    // parse the date from the HTML form in a format that javascript can read
     req.body.jsDate = Date.parse(req.body.date)
     Party.create(req.body)
         .then(party => {
-            console.log(party)
+            // console.log(party)
             // associate the new party with the user who is logged in
             User.findById(userId)
                 .then(user => {
@@ -105,18 +107,14 @@ router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
+    // double check to make sure a search term has been entered
     if (searchTerm) {
+        // perform the fetch request
         const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
         const response = await fetch(searchUrl)
         const searchResults = await response.json()
         // console.log(searchResults)
         res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
-        // Test.find({title: { $regex: searchTerm, $options: "i" }})
-        // .then(results => {
-        //     // console.log(results)
-        //     res.render('parties/search', { results, id: partyId, session, search: searchTerm })
-        // })
-        // .catch(err => console.error(err))
     } else {
         res.redirect(`/parties/${partyId}/search`)
     }
@@ -128,11 +126,14 @@ router.put('/:id/:movieId', async (req, res) => {
     const partyId = req.params.id
     const movieId = req.params.movieId
     // console.log(`this is the IMDB id we're fetching: ${movieId}`)
+    // perform another fetch, this time to get the full movie details
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
     const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
+    // set this variable to compare and see if this movie already exists in the db
     const movieToFind = await Movie.findOne({id: movieToAdd.id})
     // console.log(`${movieToFind.id}, ${movieToAdd.id}`)
+    // if movie to find doesn't return as null, and the movie being added has the same IMDB id, do this
     if (movieToFind !== null && movieToAdd.id === movieToFind.id) {
         // add the existing movie to the watch party instead of creating it
         // console.log(`these movies are the same!!!!!`)
@@ -151,7 +152,7 @@ router.put('/:id/:movieId', async (req, res) => {
         })
         res.redirect(`/parties/${partyId}`)
     } else {
-        // since the movie doesn't exist, create it and add it to the party
+        // otherwise, since the movie doesn't exist, create it in the db and add it to the party
         // console.log(`these movies are not the same!!!!!`)
         Movie.create(movieToAdd)
         .then(movie => {
@@ -226,11 +227,5 @@ router.get('/', (req, res) => {
         res.render('parties/index')
     }
 })
-
-// fallback route redirect to index
-// GET
-// router.get('*', (req, res) => {
-//     res.redirect('/parties')
-// })
 
 module.exports = router

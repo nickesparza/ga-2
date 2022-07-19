@@ -14,6 +14,7 @@ const partySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    // this is the array of movies associated with the party
     movies: [
         {
             type: Schema.Types.ObjectId,

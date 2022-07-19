@@ -4,6 +4,7 @@ const mongoose = require('./connection')
 const { Schema, model } = mongoose
 
 const movieSchema = new Schema({
+    // save only the relevant fields from the IMDB API
     id: String,
     resultType: String,
     image: String,

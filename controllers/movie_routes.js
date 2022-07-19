@@ -9,13 +9,16 @@ const Party = require('../models/party')
 // DELETE movie from a party
 // DELETE
 router.delete('/:movieId/:partyId/:index', async (req, res) => {
+    // get the ID of the movie, the party, and the index position of the movie, in case it's inside the party more than once
     const movieToDelete = req.params.movieId
     const partyToDeleteFrom = req.params.partyId
     const indexOfMovie = req.params.index
     // console.log(`THIS IS THE MOVIE TO TRY TO UNLINK FROM THE PARTY: ${movieToDelete}`)
     // console.log(`THIS IS THE PARTY TO TRY TO DELETE THIS MOVIE INSIDE OF: ${partyToDeleteFrom}`)
+    // find the party and remove the movie at the set index position
     Party.findById(partyToDeleteFrom, function (err, party) {
         party.movies.splice(indexOfMovie, 1)
+        // if that party no longer includes that movie inside it (there were no dupes), remove the party's link to that movie entirely
         if (!party.movies.includes(movieToDelete)) {
             Movie.findByIdAndUpdate(movieToDelete, {$pull: {parties: partyToDeleteFrom}})
                 .catch(err => console.log(err))
@@ -23,15 +26,6 @@ router.delete('/:movieId/:partyId/:index', async (req, res) => {
         return party.save()
     })
     res.redirect(`/parties/${partyToDeleteFrom}`)
-    // Party.findByIdAndUpdate(partyToDeleteFrom, {$pull: {movies: movieToDelete}})
-    //     .then(party => console.log(`THIS IS WHAT THE ${party.name} MOVIES ARRAY LOOKS LIKE: ${party.movies}`))
-    //     .catch(err => console.log(err))
-    // Movie.findByIdAndUpdate(movieToDelete, {$pull: {parties: partyToDeleteFrom}})
-    //     .then(movie => {
-    //         // console.log(`THIS IS WHAT THE ${movie.title} PARTIES ARRAY LOOKS LIKE: ${movie.parties}`)
-    //         res.redirect(`/parties/${partyToDeleteFrom}`)
-    //     })
-    //     .catch(err => console.log(err))
 })
 
 module.exports = router

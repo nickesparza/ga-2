@@ -3,7 +3,6 @@ html {
 }
 
 body {
-    /* background-color: rgb(81, 95, 160); */
     background-image: url('/images/bg.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -36,7 +35,6 @@ a:hover {
 .container {
     background-color: rgba(0,0,0,0.75);
     border-radius: 12px;
-    /* height: 100%; */
 }
 
 .img-preview {
