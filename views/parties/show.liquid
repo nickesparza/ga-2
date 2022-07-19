@@ -59,7 +59,8 @@
                                 <p>{{movie.plot}} | {{movie.runtimeStr}}</p>
                             </div>
                             <div class="row">
-                                <form action="/movies/{{movie._id}}/{{party._id}}?_method=DELETE" method="POST">
+                                <a href="/movies/{{movie._id}}/{{party._id}}/{{forloop.index0}}">This is a test link</a>
+                                <form action="/movies/{{movie._id}}/{{party._id}}/{{forloop.index0}}?_method=DELETE" method="POST">
                                     <input type="submit" class="btn btn-danger btn-sm" value="Delete Movie">
                                 </form>
                             </div>

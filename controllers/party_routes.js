@@ -131,26 +131,28 @@ router.put('/:id/:movieId', async (req, res) => {
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
     const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
-    // console.log(movieToAdd.id)
-    // TODO: this will create a movie even if it already exists in the db, fix it at some point
     const movieToFind = await Movie.findOne({id: movieToAdd.id})
-    // console.log(movieToFind)
     // console.log(`${movieToFind.id}, ${movieToAdd.id}`)
     if (movieToFind !== null && movieToAdd.id === movieToFind.id) {
         // add the existing movie to the watch party instead of creating it
-        console.log(`these movies are the same!!!!!`)
-        const party = Party.findById(partyId, function (err, party) {
-            party.movies.push(movieToFind)
-            return party.save()
+        // console.log(`these movies are the same!!!!!`)
+        Party.findById(partyId, function (err, party) {
+            console.log(party.movies)
+                party.movies.push(movieToFind)
+                return party.save()
+            // party.movies.push(movieToFind)
+            // return party.save()
         })
         Movie.findOne({id: movieToFind.id}, function (err, movie) {
-            movie.parties.push(partyId)
-            return movie.save()
+                movie.parties.push(partyId)
+                return movie.save()
+            // movie.parties.push(partyId)
+            // return movie.save()
         })
         res.redirect(`/parties/${partyId}`)
     } else {
         // since the movie doesn't exist, create it and add it to the party
-        console.log(`these movies are not the same!!!!!`)
+        // console.log(`these movies are not the same!!!!!`)
         Movie.create(movieToAdd)
         .then(movie => {
             // console.log(movie)

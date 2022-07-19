@@ -9,13 +9,16 @@
                     <input type="text" name="title" class="form-control" minlength="1" placeholder="Enter a title or part of a title here">
                 <input 
                     type="submit"
+                    id="startSearch"
                     value="Search" 
                     class="btn btn-primary my-3"
                 >
                 <a href="/parties/{{id}}" input class="btn btn-info">Return to Main Page</a>
             </form>
         </div>
-        <div class="spinner-border text-info"></div>
+    </div>
+    <div class="row justify-content-center">
+        <div id="searchSpinner" class="spinner-border text-info visually-hidden"></div>
     </div>
     {% if results %}
     <div class="row">
@@ -23,7 +26,7 @@
     </div>
     <div class="row justify-content-center">
         {% for result in results %}
-            <div class="col-auto m-1">
+            <div class="col-auto m-2 align-self-end">
                 <div class="card" style="width: 12rem">
                     <div class="card-body" style="text-align: center">
                         <img src="{{result.image}}" class="img-fluid">
@@ -38,4 +41,5 @@
     </div>
     {% endif %}
 </div>
+<script src="/search.js"></script>
     {% endblock %}
