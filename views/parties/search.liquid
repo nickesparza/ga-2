@@ -4,9 +4,9 @@
 <div class="container p-4">
     <div class="row justify-content-center">
         <div class="col-6">
-            <form action="/parties/{{id}}/search" method="POST">
+            <form id="movieSearch" action="/parties/{{id}}/search" method="POST">
                     <legend>Search for a Movie</legend>
-                    <input type="text" name="title" class="form-control" minlength="1" placeholder="Enter a title or part of a title here">
+                    <input type="text" name="title" class="form-control" required minlength="1" placeholder="Enter a title or part of a title here">
                 <input 
                     type="submit"
                     id="startSearch"

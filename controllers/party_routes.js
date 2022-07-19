@@ -170,22 +170,6 @@ router.put('/:id/:movieId', async (req, res) => {
         })
         .catch(err => console.error(err))
     }
-    // Movie.create(movieToAdd)
-    //     .then(movie => {
-    //         // console.log(movie)
-    //         Party.findById(partyId)
-    //             .then(party => {
-    //                 party.movies.push(movie)
-    //                 return party.save()
-    //             })
-    //             .then(party => {
-    //                 movie.parties.push(party)
-    //                 return movie.save()
-    //             })
-    //             .then(res.redirect(`/parties/${partyId}`))
-    //             .catch(err => console.error(err))
-    //     })
-    //     .catch(err => console.error(err))
 })
 
 // SHOW a single watch party
