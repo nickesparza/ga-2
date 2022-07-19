@@ -3,7 +3,8 @@ WatchParty
 - App for users to search their favorite movies, add them to a watchlist, and create organized movie nights
 - Add snacks to a db and also add to a watch party
 - Searchable via the IMDb API
-- Models: User, WatchParty, Snack, Movie(?)
+- Models: User, WatchParty, Movie
+- Subdocuments: Snack
 
 ![image](/wireframes/project-2-wireframe-08.jpg)
 
