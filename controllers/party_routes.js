@@ -107,6 +107,8 @@ router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
+    console.log(`here is the api key`, key)
+    console.log(`here is the movie ID`, movieId)
     // double check to make sure a search term has been entered
     if (searchTerm) {
         // perform the fetch request
@@ -134,6 +136,8 @@ router.post('/:id/search', async (req, res) => {
 router.put('/:id/:movieId', async (req, res) => {
     const partyId = req.params.id
     const movieId = req.params.movieId
+    console.log(`here is the api key`, key)
+    console.log(`here is the movie ID`, movieId)
     // console.log(`this is the IMDB id we're fetching: ${movieId}`)
     // perform another fetch, this time to get the full movie details
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
