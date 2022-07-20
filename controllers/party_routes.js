@@ -117,10 +117,12 @@ router.post('/:id/search', async (req, res) => {
         try {
             response = await fetch(searchUrl)
             if (response.status === "403") {
+                console.log('403 if statement was hit')
                 console.log(response)
-                res.redirect(`/parties/${partyId}/search`)
+                res.redirect(`/parties/${partyId}`)
             }
-            // console.log(response)
+            console.log('if statement was NOT hit')
+            console.log(response)
         } catch (error) {
             console.log(`whoops, got an error`)
             console.log(error)
@@ -150,9 +152,10 @@ router.put('/:id/:movieId', async (req, res) => {
         response = await fetch(searchUrl)
         if (response.status === "403") {
             console.log(response)
-            res.redirect(`/parties/${partyId}/search`)
+            res.redirect(`/parties/${partyId}`)
         }
     } catch (error) {
+        console.log(response)
         console.log(error)
         res.redirect(`/parties/${partyId}/search`)
     }
