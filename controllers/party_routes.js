@@ -111,7 +111,15 @@ router.post('/:id/search', async (req, res) => {
     if (searchTerm) {
         // perform the fetch request
         const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
-        const response = await fetch(searchUrl)
+        let response
+        try {
+            response = await fetch(searchUrl)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+            res.json(error)
+        }
+        // const response = await fetch(searchUrl)
         const searchResults = await response.json()
         // console.log(searchResults)
         res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
@@ -128,7 +136,15 @@ router.put('/:id/:movieId', async (req, res) => {
     // console.log(`this is the IMDB id we're fetching: ${movieId}`)
     // perform another fetch, this time to get the full movie details
     const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
-    const response = await fetch(searchUrl)
+    let response
+    try {
+        response = await fetch(searchUrl)
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+        res.send(`Sorry, something went wrong. Maybe try again?`)
+    }
+    // const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
     // set this variable to compare and see if this movie already exists in the db
     const movieToFind = await Movie.findOne({id: movieToAdd.id})
@@ -175,7 +191,7 @@ router.put('/:id/:movieId', async (req, res) => {
 
 // SHOW a single watch party
 // GET
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
@@ -189,6 +205,7 @@ router.get('/:id', (req, res) => {
             .then(party => {
                 const now = Date.now()
                 // console.log(party.jsDate)
+                // console.log(party)
                 res.render('parties/show', { party, session: session, now })
             })
             .catch(err => console.error(err))
