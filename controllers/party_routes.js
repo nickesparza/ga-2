@@ -108,7 +108,7 @@ router.post('/:id/search', async (req, res) => {
     const partyId = req.params.id
     const searchTerm = req.body.title
     console.log(`here is the api key`, key)
-    console.log(`here is the movie ID`, movieId)
+    console.log(`here is the movie ID`, searchTerm)
     // double check to make sure a search term has been entered
     if (searchTerm) {
         // perform the fetch request
