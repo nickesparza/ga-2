@@ -148,7 +148,10 @@ router.put('/:id/:movieId', async (req, res) => {
     let response
     try {
         response = await fetch(searchUrl)
-        console.log(response)
+        if (response.status === "403") {
+            console.log(response)
+            res.redirect(`/parties/${partyId}/search`)
+        }
     } catch (error) {
         console.log(error)
         res.redirect(`/parties/${partyId}/search`)
