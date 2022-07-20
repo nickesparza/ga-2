@@ -8,9 +8,9 @@
                     <fieldset>
                         <legend>New User Signup</legend>
                         <label class="form-label" for="username">Username:</label>
-                        <input type="text" id="username" name="username" class="form-control">
+                        <input type="text" id="username" name="username" class="form-control" required minlength="1" maxlength="32" pattern="[A-Za-z0-9]" title="username may only contain letters and/or numbers">
                         <label class="form-label" for="password">Password:</label>
-                        <input type="password" id="password" name="password" class="form-control">
+                        <input type="password" id="password" name="password" class="form-control" required minlength="4" maxlength="32" pattern="[A-Za-z0-9]" title="password should contain between 4 and 32 characters, letters and numbers only">
                     </fieldset>
                     <input 
                         type="submit" 
