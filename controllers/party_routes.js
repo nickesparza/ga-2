@@ -116,7 +116,11 @@ router.post('/:id/search', async (req, res) => {
         let response
         try {
             response = await fetch(searchUrl)
-            console.log(response)
+            if (response.status === "403") {
+                console.log(response)
+                res.redirect(`/parties/${partyId}/search`)
+            }
+            // console.log(response)
         } catch (error) {
             console.log(`whoops, got an error`)
             console.log(error)
