@@ -116,6 +116,7 @@ router.post('/:id/search', async (req, res) => {
             response = await fetch(searchUrl)
             console.log(response)
         } catch (error) {
+            console.log(`whoops, got an error`)
             console.log(error)
             res.redirect(`/parties/${partyId}/search`)
         }
