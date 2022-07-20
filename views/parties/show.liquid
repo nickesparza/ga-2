@@ -81,7 +81,7 @@
                 <!-- <div class="col"> -->
                     <form action="/snacks/{{party._id}}" method="POST">
                         <fieldset>
-                            <input type="text" id="name" name="name" minlength="1" placeholder="Enter snack" class="form-control my-1">
+                            <input type="text" id="name" name="name" minlength="1" maxlength="32" required pattern="[A-Za-z0-9]" title="name may only contain letters and/or numbers" placeholder="Enter snack" class="form-control my-1">
                             <label for="purchased">In Stock</label>
                             <input type="checkbox" id="purchased" name="purchased" class="form-check-input">
                         </fieldset>
