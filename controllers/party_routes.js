@@ -117,7 +117,7 @@ router.post('/:id/search', async (req, res) => {
             console.log(response)
         } catch (error) {
             console.log(error)
-            res.json(error)
+            res.redirect(`/parties/${partyId}/search`)
         }
         // const response = await fetch(searchUrl)
         const searchResults = await response.json()
@@ -142,7 +142,7 @@ router.put('/:id/:movieId', async (req, res) => {
         console.log(response)
     } catch (error) {
         console.log(error)
-        res.send(`Sorry, something went wrong. Maybe try again?`)
+        res.redirect(`/parties/${partyId}/search`)
     }
     // const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
