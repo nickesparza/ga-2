@@ -113,24 +113,25 @@ router.post('/:id/search', async (req, res) => {
     if (searchTerm) {
         // perform the fetch request
         const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
-        let response
-        try {
-            response = await fetch(searchUrl)
-            if (response.status === "403") {
-                console.log('403 if statement was hit')
-                console.log(response)
-                res.redirect(`/parties/${partyId}`)
-            }
-            console.log('if statement was NOT hit')
-            console.log(response)
-        } catch (error) {
-            console.log(`whoops, got an error`)
-            console.log(error)
-            res.redirect(`/parties/${partyId}/search`)
-        }
+        // let response
+        // try {
+        //     response = await fetch(searchUrl)
+        //     if (response.status === "403") {
+        //         console.log('403 if statement was hit')
+        //         console.log(response)
+        //         res.redirect(`/parties/${partyId}`)
+        //     } else {
+        //         console.log('if statement was NOT hit')
+        //         console.log(response)
+        //     }
+        // } catch (error) {
+        //     console.log(`whoops, got an error`)
+        //     console.log(error)
+        //     res.redirect(`/parties/${partyId}/search`)
+        // }
         // const response = await fetch(searchUrl)
         const searchResults = await response.json()
-        // console.log(searchResults)
+        console.log(searchResults)
         res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
     } else {
         res.redirect(`/parties/${partyId}/search`)
