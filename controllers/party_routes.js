@@ -119,7 +119,7 @@ router.post('/:id/search', async (req, res) => {
             })
             .catch(error => {
                 console.log(error)
-                res.redirect(`parties/${partyId}`)
+                res.redirect(`parties/${partyId}/search`)
             })
         // let response
         // try {
