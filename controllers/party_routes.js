@@ -113,6 +113,13 @@ router.post('/:id/search', async (req, res) => {
     if (searchTerm) {
         // perform the fetch request
         const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
+        fetch(searchUrl)
+            .then(response => response.json())
+            .then(searchResults => {
+                console.log(searchResults)
+                res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
+            })
+            .catch(error => console.log(error))
         // let response
         // try {
         //     response = await fetch(searchUrl)
@@ -129,10 +136,10 @@ router.post('/:id/search', async (req, res) => {
         //     console.log(error)
         //     res.redirect(`/parties/${partyId}/search`)
         // }
-        const response = await fetch(searchUrl)
-        const searchResults = await response.json()
-        console.log(searchResults)
-        res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
+        // const response = await fetch(searchUrl)
+        // const searchResults = await response.json()
+        // console.log(searchResults)
+        // res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
     } else {
         res.redirect(`/parties/${partyId}/search`)
     }
