@@ -129,7 +129,7 @@ router.post('/:id/search', async (req, res) => {
         //     console.log(error)
         //     res.redirect(`/parties/${partyId}/search`)
         // }
-        // const response = await fetch(searchUrl)
+        const response = await fetch(searchUrl)
         const searchResults = await response.json()
         console.log(searchResults)
         res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
