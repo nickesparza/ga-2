@@ -1,25 +1,23 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-<div class="container">
+<div class="container p-4">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-auto">
             <form action="/parties/new" method="POST">
                 <fieldset>
                     <legend>Create New Watch Party</legend>
                     <label class="form-label" for="name">Party Name:</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+                    <input type="text" id="name" name="name" class="form-control" minlength="1" maxlength="32" required pattern="[A-Za-z0-9 .,!?@%()]{1,32}" title="name may only contain letters and/or numbers">
                     <label class="form-label" for="date">Party Date:</label>
                     <input type="date" id="date" name="date" class="form-control" required>
                 </fieldset>
                 <input 
                     type="submit" 
                     value="Create" 
-                    class="btn btn-success my-3"
+                    class="btn btn-primary my-3"
                 >
-                <form action="/parties" method="GET">
-                    <input class="btn btn-primary" type="submit" value="Return to Main Page">
-                </form>
+                <a href="/parties" class="btn btn-info">Return to Main Page</a>
             </form>
         </div>
     </div>

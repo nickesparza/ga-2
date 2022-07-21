@@ -30,7 +30,7 @@ router.post('/signup', async (req, res) => {
         // if creation fails, send error
         .catch(err => {
             console.log(err)
-            // res.json(err)
+            res.send('username already exists.')
         })
 })
 

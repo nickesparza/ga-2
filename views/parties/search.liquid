@@ -1,40 +1,45 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-<div class="container">
+<div class="container p-4">
     <div class="row justify-content-center">
-        <div class="col-6">
-            <form action="/parties/{{id}}/search" method="POST">
+        <div class="col-md-6">
+            <form id="movieSearch" action="/parties/{{id}}/search" method="POST">
                     <legend>Search for a Movie</legend>
-                    <input type="text" name="title" class="form-control" minlength="1" placeholder="Enter a title or part of a title here">
+                    <input type="text" name="title" class="form-control" required minlength="1" placeholder="Enter a title or part of a title here" pattern="[A-Za-z0-9 .,!?@%()]{1,64}" title="field may only contain letters and/or numbers">
                 <input 
-                    type="submit" 
+                    type="submit"
+                    id="startSearch"
                     value="Search" 
-                    class="btn btn-success my-3"
+                    class="btn btn-primary my-3"
                 >
-                <form action="/parties/{{id}}" method="GET">
-                    <input class="btn btn-primary" type="submit" value="Return to Main Page">
-                </form>
+                <a href="/parties/{{id}}" input class="btn btn-info">Return to Main Page</a>
             </form>
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <div id="searchSpinner" class="spinner-border text-info visually-hidden"></div>
     </div>
     {% if results %}
     <div class="row">
         <p>showing results for {{search}}</p>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
         {% for result in results %}
-            <div class="card" style="width: 18rem">
-                <div class="card-body" style="text-align: center">
-                    <img src="{{result.image}}" class="img-fluid">
-                    <h5>{{result.title}}</h5>
-                    <form action="/parties/{{id}}/{{result.id}}?_method=PUT" method="POST">
-                        <input class="btn btn-primary" type="submit" value="Add to Watch Party">
-                    </form>
+            <div class="col-auto m-2 align-self-end">
+                <div class="card" style="width: 12rem">
+                    <div class="card-body" style="text-align: center">
+                        <img src="{{result.image}}" class="img-fluid">
+                        <h5>{{result.title}}</h5>
+                        <form action="/parties/{{id}}/{{result.id}}?_method=PUT" method="POST">
+                            <input class="btn btn-info" type="submit" value="Add to Watch Party">
+                        </form>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
     {% endif %}
 </div>
+<script src="/search.js"></script>
     {% endblock %}

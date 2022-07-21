@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400&display=swap" rel="stylesheet">
     <!-- link for bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -12,12 +15,11 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark py-3" style="background-color: rgb(17, 17, 95);">
         <a href="/parties" class="navbar-brand mx-4">WatchParty</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navigation">
+        <button class="navbar-toggler mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             {% if session.username %}
-                |<a class="nav-link text-light mx-2">{{session.username}}</a>|
                 <a href="/parties" class="nav-link text-light mx-2">All Parties</a>
                 <a href="/archives" class="nav-link text-light mx-2">Archives</a>
                 <a href="/user/logout" class="nav-link text-light mx-2">Log Out</a>
@@ -27,7 +29,7 @@
             {% endif %}
         </div>
     </nav>
-    <main class="m-4">
+    <main class="py-4">
         {% block content %}
             My content
         {% endblock %}

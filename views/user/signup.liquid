@@ -1,16 +1,16 @@
 {% layout 'layout.liquid' %}
 
 {% block content %}
-    <div class="container-md">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-4">
+            <div class="col-md-4">
                 <form action="/user/signup" method="POST">
                     <fieldset>
                         <legend>New User Signup</legend>
                         <label class="form-label" for="username">Username:</label>
-                        <input type="text" id="username" name="username" class="form-control">
+                        <input type="text" id="username" name="username" class="form-control" required minlength="1" maxlength="32" pattern="[A-Za-z0-9]{4,32}" title="username may only contain letters and/or numbers">
                         <label class="form-label" for="password">Password:</label>
-                        <input type="password" id="password" name="password" class="form-control">
+                        <input type="password" id="password" name="password" class="form-control" required minlength="4" maxlength="32" pattern="[A-Za-z0-9]{4,32}" title="password should contain between 4 and 32 characters, letters and numbers only">
                     </fieldset>
                     <input 
                         type="submit" 

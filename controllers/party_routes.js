@@ -9,13 +9,11 @@ const User = require('../models/user')
 const Movie = require('../models/movie')
 // const Test = require('../testdata/test')
 
-const key = process.env.API_KEY
-
 // DELETE watch party from database
 // DELETE
 router.delete('/:id', (req, res) => {
     const partyId = req.params.id
-    // before deleting the party, remove references to it from all movies inside
+    // before deleting the party, remove references to it from all the movies inside its movies array
     Movie.find({parties: partyId})
         .then(movies => {
             movies.forEach(movie => {
@@ -27,6 +25,7 @@ router.delete('/:id', (req, res) => {
             })
             console.log(movies)
         })
+    // then, delete the party and go back to the index
     Party.findByIdAndRemove(partyId)
         .then(res.redirect('/parties'))
         .catch(err => console.error(err))
@@ -48,10 +47,11 @@ router.post('/new', (req, res) => {
     req.body.owner = userId
     // console.log(`this is the request body being sent`)
     // console.log(req.body)
+    // parse the date from the HTML form in a format that javascript can read
     req.body.jsDate = Date.parse(req.body.date)
     Party.create(req.body)
         .then(party => {
-            console.log(party)
+            // console.log(party)
             // associate the new party with the user who is logged in
             User.findById(userId)
                 .then(user => {
@@ -105,18 +105,42 @@ router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
+    console.log(`here is the api key`, process.env.API_KEY)
+    console.log(`here is the movie ID`, searchTerm)
+    // double check to make sure a search term has been entered
     if (searchTerm) {
-        const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
-        const response = await fetch(searchUrl)
-        const searchResults = await response.json()
+        // perform the fetch request
+        const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${process.env.API_KEY}/${searchTerm}`
+        fetch(searchUrl)
+            .then(response => response.json())
+            .then(searchResults => {
+                console.log(searchResults)
+                res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
+            })
+            .catch(error => {
+                console.log(error)
+                res.redirect(`parties/${partyId}`)
+            })
+        // let response
+        // try {
+        //     response = await fetch(searchUrl)
+        //     if (response.status === "403") {
+        //         console.log('403 if statement was hit')
+        //         console.log(response)
+        //         res.redirect(`/parties/${partyId}`)
+        //     } else {
+        //         console.log('if statement was NOT hit')
+        //         console.log(response)
+        //     }
+        // } catch (error) {
+        //     console.log(`whoops, got an error`)
+        //     console.log(error)
+        //     res.redirect(`/parties/${partyId}/search`)
+        // }
+        // const response = await fetch(searchUrl)
+        // const searchResults = await response.json()
         // console.log(searchResults)
-        res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
-        // Test.find({title: { $regex: searchTerm, $options: "i" }})
-        // .then(results => {
-        //     // console.log(results)
-        //     res.render('parties/search', { results, id: partyId, session, search: searchTerm })
-        // })
-        // .catch(err => console.error(err))
+        // res.render('parties/search', { results: searchResults.results, id: partyId, session, search: searchTerm })
     } else {
         res.redirect(`/parties/${partyId}/search`)
     }
@@ -127,30 +151,49 @@ router.post('/:id/search', async (req, res) => {
 router.put('/:id/:movieId', async (req, res) => {
     const partyId = req.params.id
     const movieId = req.params.movieId
+    console.log(`here is the api key`, process.env.API_KEY)
+    console.log(`here is the movie ID`, movieId)
     // console.log(`this is the IMDB id we're fetching: ${movieId}`)
-    const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
-    const response = await fetch(searchUrl)
+    // perform another fetch, this time to get the full movie details
+    const searchUrl = `https://imdb-api.com/en/API/Title/${process.env.API_KEY}/${movieId}`
+    let response
+    try {
+        response = await fetch(searchUrl)
+        if (response.status === "403") {
+            console.log(response)
+            res.redirect(`/parties/${partyId}`)
+        }
+    } catch (error) {
+        console.log(response)
+        console.log(error)
+        res.redirect(`/parties/${partyId}/search`)
+    }
+    // const response = await fetch(searchUrl)
     const movieToAdd = await response.json()
-    // console.log(movieToAdd.id)
-    // TODO: this will create a movie even if it already exists in the db, fix it at some point
+    // set this variable to compare and see if this movie already exists in the db
     const movieToFind = await Movie.findOne({id: movieToAdd.id})
-    // console.log(movieToFind)
     // console.log(`${movieToFind.id}, ${movieToAdd.id}`)
+    // if movie to find doesn't return as null, and the movie being added has the same IMDB id, do this
     if (movieToFind !== null && movieToAdd.id === movieToFind.id) {
         // add the existing movie to the watch party instead of creating it
-        console.log(`these movies are the same!!!!!`)
-        const party = Party.findById(partyId, function (err, party) {
-            party.movies.push(movieToFind)
-            return party.save()
+        // console.log(`these movies are the same!!!!!`)
+        Party.findById(partyId, function (err, party) {
+            console.log(party.movies)
+                party.movies.push(movieToFind)
+                return party.save()
+            // party.movies.push(movieToFind)
+            // return party.save()
         })
         Movie.findOne({id: movieToFind.id}, function (err, movie) {
-            movie.parties.push(partyId)
-            return movie.save()
+                movie.parties.push(partyId)
+                return movie.save()
+            // movie.parties.push(partyId)
+            // return movie.save()
         })
         res.redirect(`/parties/${partyId}`)
     } else {
-        // since the movie doesn't exits, create it and add it to the party
-        console.log(`these movies are not the same!!!!!`)
+        // otherwise, since the movie doesn't exist, create it in the db and add it to the party
+        // console.log(`these movies are not the same!!!!!`)
         Movie.create(movieToAdd)
         .then(movie => {
             // console.log(movie)
@@ -168,40 +211,32 @@ router.put('/:id/:movieId', async (req, res) => {
         })
         .catch(err => console.error(err))
     }
-    // Movie.create(movieToAdd)
-    //     .then(movie => {
-    //         // console.log(movie)
-    //         Party.findById(partyId)
-    //             .then(party => {
-    //                 party.movies.push(movie)
-    //                 return party.save()
-    //             })
-    //             .then(party => {
-    //                 movie.parties.push(party)
-    //                 return movie.save()
-    //             })
-    //             .then(res.redirect(`/parties/${partyId}`))
-    //             .catch(err => console.error(err))
-    //     })
-    //     .catch(err => console.error(err))
 })
 
 // SHOW a single watch party
 // GET
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     // get party ID and session ID to populate page
     const partyId = req.params.id
     const session = req.session
-    const now = Date.now()
     // find party
-    Party.findById(partyId)
-        // then, populate movies and snacks inside of party
-        .populate('movies')
-        .then(party => {
-            // console.log(party.jsDate)
-            res.render('parties/show', { party, session: session, now })
-        })
-        .catch(err => console.error(err))
+    if (req.session.username) {
+        // console.log('there is a session')
+        // console.log(req.session)
+        Party.findById(partyId)
+            // then, populate movies and snacks inside of party
+            .populate('movies')
+            .then(party => {
+                const now = Date.now()
+                // console.log(party.jsDate)
+                // console.log(party)
+                res.render('parties/show', { party, session: session, now })
+            })
+            .catch(err => console.error(err))
+    } else {
+        // console.log('no such party found')
+        res.redirect('/parties')
+    }
 })
 
 // INDEX of all watch parties
@@ -233,8 +268,5 @@ router.get('/', (req, res) => {
         res.render('parties/index')
     }
 })
-
-// fallback route redirect to index
-// GET
 
 module.exports = router
