@@ -9,8 +9,6 @@ const User = require('../models/user')
 const Movie = require('../models/movie')
 // const Test = require('../testdata/test')
 
-const key = process.env.API_KEY
-
 // DELETE watch party from database
 // DELETE
 router.delete('/:id', (req, res) => {
@@ -107,12 +105,12 @@ router.post('/:id/search', async (req, res) => {
     const session = req.session
     const partyId = req.params.id
     const searchTerm = req.body.title
-    console.log(`here is the api key`, key)
+    console.log(`here is the api key`, process.env.API_KEY)
     console.log(`here is the movie ID`, searchTerm)
     // double check to make sure a search term has been entered
     if (searchTerm) {
         // perform the fetch request
-        const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${key}/${searchTerm}`
+        const searchUrl = `https://imdb-api.com/en/API/SearchMovie/${process.env.API_KEY}/${searchTerm}`
         fetch(searchUrl)
             .then(response => response.json())
             .then(searchResults => {
@@ -153,11 +151,11 @@ router.post('/:id/search', async (req, res) => {
 router.put('/:id/:movieId', async (req, res) => {
     const partyId = req.params.id
     const movieId = req.params.movieId
-    console.log(`here is the api key`, key)
+    console.log(`here is the api key`, process.env.API_KEY)
     console.log(`here is the movie ID`, movieId)
     // console.log(`this is the IMDB id we're fetching: ${movieId}`)
     // perform another fetch, this time to get the full movie details
-    const searchUrl = `https://imdb-api.com/en/API/Title/${key}/${movieId}`
+    const searchUrl = `https://imdb-api.com/en/API/Title/${process.env.API_KEY}/${movieId}`
     let response
     try {
         response = await fetch(searchUrl)
