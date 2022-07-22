@@ -45,6 +45,7 @@ Parties
 
 Archives
 | RESTful routes | Route | Path | HTTP Verb |
+|----------------|----|--------|----------|
 | Set party to archived status | Update | /archives/id | PUT |
 | Unset party from archived status | Update | /archives/id/unarchive | PUT |
 | View all archives | Show | /archives | GET |
@@ -52,11 +53,13 @@ Archives
 
 Snacks
 |  RESTful routes | Route | Path | HTTP Verb |
+|----------------|----|--------|----------|
 | Create new snack | Create | /snack/id | POST |
 | Delete snack | Delete | /snack/partyID/id | DELETE |
 
 Movies
 | RESTful routes | Route | Path | HTTP Verb |
+|----------------|----|--------|----------|
 | Delete movie from one party | Delete | /movies/id/partyID/index | DELETE |
 
 User
