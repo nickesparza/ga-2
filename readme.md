@@ -1,4 +1,4 @@
-WatchParty
+# WatchParty
 
 - App for users to search their favorite movies, add them to a watchlist, and create organized movie nights
 - Add snacks to a db and also add to a watch party
@@ -6,7 +6,66 @@ WatchParty
 - Models: User, WatchParty, Movie
 - Subdocuments: Snack
 
-![image](/wireframes/project-2-wireframe-08.jpg)
+# Approach
+The app was created using HTML, CSS, node.js, JavaScript, Liquid templating language, mongoDB, and Mongoose ODM. It is deployed using mongoDB Atlas for the database, and hosted with Heroku.
+
+# Link to Project on Heroku
+[https://ga-2-watchparty.herokuapp.com/](https://ga-2-watchparty.herokuapp.com/)
+
+# Install Instructions
+## API
+You will need a free API key from the [IMDB-API website](https://imdb-api.com/)
+
+## Dependencies
+You will need to install the following node modules:
+- mongoose
+- connect-mongo
+- dotenv
+- express
+- express-session
+- liquidjs
+- liquid-express-views
+- method-override
+- bcryptjs
+- node-fetch
+- morgan
+
+# Routes
+
+Parties
+| RESTful routes | Route | Path | HTTP Verb |
+|----------------|----|--------|----------|
+| Create WatchParty Form | New | /party/new | GET |
+| Create WatchParty | Create | /party | POST |
+| View all WatchParties | Index | /party | GET |
+| View single WatchParty | Show | /party/:id | GET |
+| Edit WatchParty form | Edit | /party/:id/edit | GET |
+| Update WatchParty | Update | /party/:id | PUT |
+| Delete WatchParty | Delete | /party/:id | DELETE |
+
+Archives
+| RESTful routes | Route | Path | HTTP Verb |
+| Set party to archived status | Update | /archives/id | PUT |
+| Unset party from archived status | Update | /archives/id/unarchive | PUT |
+| View all archives | Show | /archives | GET |
+| View one archive | Show | /archives/id | GET |
+
+Snacks
+|  RESTful routes | Route | Path | HTTP Verb |
+| Create new snack | Create | /snack/id | POST |
+| Delete snack | Delete | /snack/partyID/id | DELETE |
+
+Movies
+| RESTful routes | Route | Path | HTTP Verb |
+| Delete movie from one party | Delete | /movies/id/partyID/index | DELETE |
+
+User
+| RESTful routes | Route | Path | HTTP Verb |
+|----------------|----|--------|----------|
+| Create User Form | New | /user/register | GET |
+| Create User| Create | /user | POST |
+
+# Planning
 
 User Stories:
 - Create an account and log in
@@ -26,27 +85,6 @@ User Stories:
 - Mark a watch party as complete
 - View a read-only archive of completed watch parties
 
-![image](/wireframes/project-2-wireframe-10.jpg)
-
-WatchParty
-| RESTful routes | Route | Path | HTTP Verb |
-|----------------|----|--------|----------|
-| Create WatchParty Form | New | /party/new | GET |
-| Create WatchParty | Create | /party | POST |
-| View all WatchParties | Index | /party | GET |
-| View single WatchParty | Show | /party/:id | GET |
-| Edit WatchParty form | Edit | /party/:id/edit | GET |
-| Update WatchParty | Update | /party/:id | PUT |
-| Delete WatchParty | Delete | /party/:id | DELETE |
-
-User
-| RESTful routes | Route | Path | HTTP Verb |
-|----------------|----|--------|----------|
-| Create User Form | New | /user/register | GET |
-| Create User| Create | /user | POST |
-
-![image](/wireframes/project-2-wireframe-11.jpg)
-
 MongoDB Collections
 - users
 - watchparties
@@ -58,7 +96,7 @@ Packages/Modules to be Used:
 - connect-mongo
 - dotenv
 - express
-- express-sesson
+- express-session
 - liquidjs
 - liquid-express-views
 - method-override
