@@ -14,7 +14,9 @@ The app was created using HTML, CSS, node.js, JavaScript, Liquid templating lang
 
 # Install Instructions
 ## API
-You will need a free API key from the [IMDB-API website](https://imdb-api.com/)
+- You will need a free API_KEY from the [IMDB-API website](https://imdb-api.com/)
+- You will need a DB_URI from Mongo or elsewhere
+- You will need a session SECRET
 
 ## Dependencies
 You will need to install the following node modules:
