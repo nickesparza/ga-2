@@ -19,7 +19,7 @@ The app was created using HTML, CSS, node.js, JavaScript, Liquid templating lang
 - You will need a session SECRET
 
 ## Dependencies
-You will need to install the following node modules:
+You will need to install (npm i) the following node modules (included in package.json):
 - mongoose
 - connect-mongo
 - dotenv
